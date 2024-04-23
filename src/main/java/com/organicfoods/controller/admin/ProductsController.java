@@ -33,6 +33,7 @@ public class ProductsController extends HttpServlet{
 			model.setOffset();
 			model.setListResults(productService.findByOffsetAndLimit(model.getOffset(),model.getItemsPerPage(),model.getSortName(),
 					model.getSortBy()));
+			req.setAttribute(SystemConstant.MODEL, model);
 			view = "/views/admin/products/list.jsp";
 			req.setAttribute("total", productService.countProducts());
 		}
@@ -41,7 +42,7 @@ public class ProductsController extends HttpServlet{
 			model.setTotalPages();
 			model.setOffset();
 			model.setListResults(productService.findByCode(model.getOffset(),model.getItemsPerPage(),model.getKeyword()));
-			view = "/views/admin/products/search.jsp";
+			view = "/views/admin/products/list.jsp";
 			req.setAttribute("total", productService.countProductsByCode(model.getKeyword()));
 		}
 		req.setAttribute(SystemConstant.MODEL, model);
