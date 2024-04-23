@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import com.organicfoods.dao.IProductDAO;
 import com.organicfoods.model.ProductModel;
+import com.organicfoods.paging.Pageble;
 import com.organicfoods.service.IProductService;
 
 public class ProductService implements IProductService{
@@ -39,8 +40,8 @@ public class ProductService implements IProductService{
 	}
 
 	@Override
-	public List<ProductModel> findByOffsetAndLimit(Integer offset, Integer limit, String sortName, String sortBy) {
-		return productDAO.findByOffsetAndLimit(offset, limit, sortName, sortBy);
+	public List<ProductModel> findByOffsetAndLimit(Pageble pageble) {
+		return productDAO.findByOffsetAndLimit(pageble);
 	}
 
 	@Override
@@ -49,8 +50,8 @@ public class ProductService implements IProductService{
 	}
 
 	@Override
-	public List<ProductModel> findByCode(Integer offset, Integer limit, String code) {
-		return productDAO.findByCode(offset, limit, code);
+	public List<ProductModel> findByCode(Pageble pageble, String code) {
+		return productDAO.findByCode(pageble, code);
 	}
 
 	@Override

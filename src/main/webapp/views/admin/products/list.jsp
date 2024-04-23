@@ -26,13 +26,8 @@
 	        <form action="<c:url value='/admin-products?'/>" method = "GET" class="row align-items-center" id="formSearch">
 				<div class="col-auto">
 					<input type="text" value="${model.keyword}" name="keyword" id="keyword" class="form-control" placeholder="Enter code"/>
-			    	<!--
-			    	<input type="hidden" id="pageS" name="page" value="1"/>
-			        <input type="hidden" id="itemsPerPageS" name="itemsPerPage" value="10"/>
-			        <input type="hidden" id="typeS" name="type" value="search"/>
-			        -->
-			        <input type="hidden" id="page" name="page" value="1"/>
-			        <input type="hidden" id="itemsPerPage" name="itemsPerPage" value="10"/>
+			        <input type="hidden" id="page" name="page" value=""/>
+			        <input type="hidden" id="itemsPerPage" name="itemsPerPage" value=""/>
 			        <input type="hidden" id="sortName" name="sortName" value=""/>
 			        <input type="hidden" id="sortBy" name="sortBy" value=""/>
 			        <input type="hidden" id="type" name="type" value=""/>
@@ -176,7 +171,11 @@ $(function() {
     $('#btnSearch').click(function(){
         var keywordValue = $('#keyword').val();
         if (keywordValue.trim() !== '') { // Kiểm tra xem giá trị của keyword có giá trị không
-            $('#type').val('search')
+            $('#type').val('search');
+            $('#sortName').val('title');
+            $('#sortBy').val('asc');
+            $('#page').val(1);
+           	$('#itemsPerPage').val(10);
         } else {
             $('#type').val('list');
         }

@@ -17,7 +17,6 @@ public class AbstractModel<T> {
 	private Integer totalPages;
 	private String sortName;
 	private String sortBy;
-	private Integer offset;
 	private String type;
 	private String keyword;
 	
@@ -89,15 +88,6 @@ public class AbstractModel<T> {
 	}
 	public void setType(String type) {
 		this.type = type;
-	}
-	public Integer getOffset() {
-		return offset;
-	}
-	public void setOffset(Integer offset) {
-		this.offset = offset;
-	}
-	public void setOffset() {
-		this.offset = (this.page-1)*this.itemsPerPage;
 	}
 	public String getSortName() {
 		return sortName;

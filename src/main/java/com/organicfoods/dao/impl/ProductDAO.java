@@ -6,6 +6,7 @@ import java.util.List;
 import com.organicfoods.dao.IProductDAO;
 import com.organicfoods.mapper.impl.ProductMapper;
 import com.organicfoods.model.ProductModel;
+import com.organicfoods.paging.Pageble;
 
 public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO{
 
@@ -51,11 +52,11 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 	}
 
 	@Override
-	public List<ProductModel> findByOffsetAndLimit(Integer offset, Integer limit, String sortName, String sortBy) {
+	public List<ProductModel> findByOffsetAndLimit(Pageble pageble) {
 		StringBuilder sql = new StringBuilder("SELECT * FROM product AS p INNER JOIN category AS c ON p.categoryid = c.id ");
-		sql.append("ORDER BY p." + sortName + " " + sortBy);
+		sql.append("ORDER BY p." + pageble.getSorter().getSortName() + " " + pageble.getSorter().getSortBy());
 		sql.append(" LIMIT ?,?");
-		return query(sql.toString(), new ProductMapper(), offset, limit);
+		return query(sql.toString(), new ProductMapper(), pageble.getOffset(), pageble.getLimit());
 	}
 
 	@Override
@@ -65,12 +66,12 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 	}
 
 	@Override
-	public List<ProductModel> findByCode(Integer offset, Integer limit, String code) {
+	public List<ProductModel> findByCode(Pageble pageble, String code) {
 		StringBuilder sql = new StringBuilder("SELECT * FROM product AS p INNER  JOIN category AS c ON p.categoryid = c.id ");
 		sql.append("WHERE p.code LIKE '%" + code +"%' ");
-		sql.append("ORDER BY p.title ASC");
+		sql.append("ORDER BY p." + pageble.getSorter().getSortName() + " " + pageble.getSorter().getSortBy());
 		sql.append(" LIMIT ?,?");
-		return query(sql.toString(), new ProductMapper(), offset, limit);
+		return query(sql.toString(), new ProductMapper(), pageble.getOffset(), pageble.getLimit());
 	}
 
 	@Override

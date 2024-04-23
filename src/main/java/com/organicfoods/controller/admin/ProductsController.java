@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.organicfoods.constant.SystemConstant;
 import com.organicfoods.model.ProductModel;
+import com.organicfoods.paging.Pageble;
+import com.organicfoods.paging.impl.PageRequest;
 import com.organicfoods.service.IProductService;
+import com.organicfoods.sorting.Sorter;
 import com.organicfoods.util.FormUtil;
 
 @WebServlet(urlPatterns = {"/admin-products"})
@@ -26,13 +29,12 @@ public class ProductsController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ProductModel model = FormUtil.mapValueToModel(ProductModel.class, req);
+		Pageble pageble = new PageRequest(model.getPage(), model.getItemsPerPage(), new Sorter(model.getSortName(),model.getSortBy()));
 		String view = "";
 		if(model.getType() != null && model.getType().equals("list")) {
 			model.setTotalItems(productService.countProducts());
 			model.setTotalPages();
-			model.setOffset();
-			model.setListResults(productService.findByOffsetAndLimit(model.getOffset(),model.getItemsPerPage(),model.getSortName(),
-					model.getSortBy()));
+			model.setListResults(productService.findByOffsetAndLimit(pageble));
 			req.setAttribute(SystemConstant.MODEL, model);
 			view = "/views/admin/products/list.jsp";
 			req.setAttribute("total", productService.countProducts());
@@ -40,8 +42,7 @@ public class ProductsController extends HttpServlet{
 		else if(model.getType() != null && model.getType().equals("search")) {
 			model.setTotalItems(productService.countProductsByCode(model.getKeyword()));
 			model.setTotalPages();
-			model.setOffset();
-			model.setListResults(productService.findByCode(model.getOffset(),model.getItemsPerPage(),model.getKeyword()));
+			model.setListResults(productService.findByCode(pageble,model.getKeyword()));
 			view = "/views/admin/products/list.jsp";
 			req.setAttribute("total", productService.countProductsByCode(model.getKeyword()));
 		}
