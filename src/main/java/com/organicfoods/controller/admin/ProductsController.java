@@ -30,21 +30,19 @@ public class ProductsController extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ProductModel model = FormUtil.mapValueToModel(ProductModel.class, req);
 		Pageble pageble = new PageRequest(model.getPage(), model.getItemsPerPage(), new Sorter(model.getSortName(),model.getSortBy()));
-		String view = "";
-		if(model.getType() != null && model.getType().equals("list")) {
+		String view = "/views/admin/products/list.jsp";
+		if(model.getType() != null && model.getType().equals(SystemConstant.LIST)) {
 			model.setTotalItems(productService.countProducts());
 			model.setTotalPages();
 			model.setListResults(productService.findByOffsetAndLimit(pageble));
 			req.setAttribute(SystemConstant.MODEL, model);
-			view = "/views/admin/products/list.jsp";
-			req.setAttribute("total", productService.countProducts());
+			req.setAttribute(SystemConstant.TOTAL, productService.countProducts());
 		}
-		else if(model.getType() != null && model.getType().equals("search")) {
+		else if(model.getType() != null && model.getType().equals(SystemConstant.SEARCH)) {
 			model.setTotalItems(productService.countProductsByCode(model.getKeyword()));
 			model.setTotalPages();
 			model.setListResults(productService.findByCode(pageble,model.getKeyword()));
-			view = "/views/admin/products/list.jsp";
-			req.setAttribute("total", productService.countProductsByCode(model.getKeyword()));
+			req.setAttribute(SystemConstant.TOTAL, productService.countProductsByCode(model.getKeyword()));
 		}
 		req.setAttribute(SystemConstant.MODEL, model);
 		RequestDispatcher rd = req.getRequestDispatcher(view);

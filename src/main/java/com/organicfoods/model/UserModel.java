@@ -2,6 +2,7 @@ package com.organicfoods.model;
 
 public class UserModel extends AbstractModel<UserModel>{
 	private String fullName;
+	private String gender;
 	private String userName;
 	private String passWord;
 	private String email;
@@ -9,6 +10,8 @@ public class UserModel extends AbstractModel<UserModel>{
 	private String address;
 	private int status;
 	private Long roleId;
+	private String action;
+	private RoleModel role;
 	
 	public String getFullName() {
 		return fullName;
@@ -57,6 +60,24 @@ public class UserModel extends AbstractModel<UserModel>{
 	}
 	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
+	}
+	public RoleModel getRole() {
+		return role;
+	}
+	public void setRole(RoleModel role) {
+		this.role = role;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getAction() {
+		return action;
+	}
+	public void setAction(String action) {
+		this.action = action;
 	}
 	
 }
