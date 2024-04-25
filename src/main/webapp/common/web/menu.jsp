@@ -18,7 +18,6 @@
                         <a href="<c:url value = '/trang-chu?action=pages_cart'/>" class="dropdown-item">Cart</a>
                         <a href="<c:url value = '/trang-chu?action=pages_checkout'/>" class="dropdown-item">Checkout</a>
                         <a href="<c:url value = '/trang-chu?action=pages_testimonial'/>" class="dropdown-item">Testimonial</a>
-                        <a href="<c:url value = '/trang-chu?action=pages_404page'/>" class="dropdown-item">404 Page</a>
                     </div>
                 </div>
                 <a href="<c:url value = '/trang-chu?action=contact'/>" class="nav-item nav-link">Contact</a>
@@ -48,10 +47,12 @@
 				                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
 				                    Settings
 				                </a>
-				                <a class="dropdown-item" href="#">
+				                <c:if test="${USERMODEL.role.code == 'ADMIN'}">
+				                <a class="dropdown-item" href="<c:url value = '/admin-trang-chu'/>">
 				                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-				                    Activity Log
+				                    Admin home
 				                </a>
+				                </c:if>
 				                <div class="dropdown-divider"></div>
 				                <a class="dropdown-item" href="<c:url value = '/thoat?action=logout'/>" data-toggle="modal" data-target="#logoutModal">
 				                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

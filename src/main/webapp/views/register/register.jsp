@@ -3,8 +3,15 @@
 <%@include file="/common/taglib.jsp"%>
 <c:url var="APIUser" value="/api-web-user"></c:url>
 <!DOCTYPE html>
+
 <div class="container">
 	<div class="signup-content">
+		<c:if test="${not empty alert}">
+			<div class="alert alert-${alert}">
+				<c:if test=""></c:if>
+			    <strong>${message}</strong>
+			</div>
+		</c:if>
 		<div class="signup-form">
 			<h2 class="form-title">Sign up</h2>
 			
@@ -54,7 +61,6 @@
 			data[""+v.name+""] = v.value;
 		});
 		addUser(data);
-		
 	});
 
 	function addUser(data){
@@ -66,6 +72,12 @@
 			dataType: 'json',
 			success: function(result){
 				console.log(result);
+				if(result.status == 1){
+					window.location.href = "<c:url value='/dang-nhap?action=login&alert=success&message=message_success'/>";
+				}
+				else{
+					window.location.href = "<c:url value='/dang-ky?action=register&alert=danger&message=message_danger'/>";
+				}
 			},
 			error: function(error){
 				console.log(error);

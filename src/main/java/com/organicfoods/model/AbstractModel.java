@@ -19,6 +19,8 @@ public class AbstractModel<T> {
 	private String sortBy;
 	private String type;
 	private String keyword;
+	private String alert;
+	private String message;
 	
 	public Long getId() {
 		return id;
@@ -106,6 +108,18 @@ public class AbstractModel<T> {
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+	public String getAlert() {
+		return alert;
+	}
+	public void setAlert(String alert) {
+		this.alert = alert;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 }

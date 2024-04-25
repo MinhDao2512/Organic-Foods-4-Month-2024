@@ -1,6 +1,7 @@
 package com.organicfoods.controller.web;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
@@ -29,6 +30,8 @@ public class HomeController extends HttpServlet{
 	@Inject
 	private IUserService userService;
 	
+	ResourceBundle resourceBundle = ResourceBundle.getBundle("message");
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		UserModel user = FormUtil.mapValueToModel(UserModel.class, req);
@@ -52,16 +55,27 @@ public class HomeController extends HttpServlet{
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.PAGES_404PAGE)) {
 			view = "/views/web/pages/404page.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(view);
+			rd.forward(req, resp);
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.CONTACT)) {
 			view = "/views/web/contact.jsp";
+			
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.REGISTER)) {
+			if(user.getAlert() != null && user.getMessage() != null) {
+				req.setAttribute("message", resourceBundle.getString(user.getMessage()));
+				req.setAttribute("alert", user.getAlert());
+			}
 			view = "/views/register/register.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(view);
 			rd.forward(req, resp);
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.LOGIN)) {
+			if(user.getAlert() != null && user.getMessage() != null) {
+				req.setAttribute("message", resourceBundle.getString(user.getMessage()));
+				req.setAttribute("alert", user.getAlert());
+			}
 			view = "/views/login/login.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(view);
 			rd.forward(req, resp);
@@ -87,28 +101,16 @@ public class HomeController extends HttpServlet{
 			user = userService.findByUsernameAndPasswordAndStatus(user.getUserName(), user.getPassWord(), 1);
 			if(user != null) {
 				SessionUtil.getInstance().putValue(req, SystemConstant.USERMODEL, user);
-				resp.sendRedirect(req.getContextPath() + "/trang-chu");
+				if(user.getRole().getCode().equals(SystemConstant.ADMIN)) {
+					resp.sendRedirect(req.getContextPath() + "/admin-trang-chu");
+				}
+				else {
+					resp.sendRedirect(req.getContextPath() + "/trang-chu");
+				}
 			}
 			else {
 				resp.sendRedirect(req.getContextPath() + "/dang-nhap?action=login");
 			}
-		}
-		else if(user.getAction() != null && user.getAction().equals(SystemConstant.REGISTER)) {
-			UserModel newUser = new UserModel();
-			newUser = user; 
-			System.out.println(newUser.getUserName());
-			System.out.println(newUser.getPassWord());
-			System.out.println(newUser.getFullName());
-			System.out.println(newUser.getEmail());
-			System.out.println(newUser.getPhone());
-			user = userService.findByUsernameOrEmailOrPhone(user.getUserName(), user.getEmail(), user.getPhone());
-			if(user != null) {
-				resp.sendRedirect(req.getContextPath() + "/dang-ky?action=register");
-			}
-			else{
-				userService.insertUserModel(newUser);
-				resp.sendRedirect(req.getContextPath() + "/dang-nhap?action=login");
-			}	
 		}
 	}
 }

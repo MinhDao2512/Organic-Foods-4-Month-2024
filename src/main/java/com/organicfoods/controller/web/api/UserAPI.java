@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.organicfoods.constant.SystemConstant;
 import com.organicfoods.model.UserModel;
 import com.organicfoods.service.IUserService;
 import com.organicfoods.util.HttpUtil;
@@ -27,9 +26,11 @@ public class UserAPI extends HttpServlet{
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json");
 		UserModel user = HttpUtil.toStrJSON(req.getReader()).toModel(UserModel.class);
-		Long id = userService.insertUserModel(user);
-		user = userService.findById(id);
-		req.setAttribute(SystemConstant.MODEL, user);
+		UserModel checkUser = userService.findByUsernameOrEmailOrPhone(user.getUserName(), user.getEmail(), user.getPhone());
+		if(checkUser == null) {
+			Long id = userService.insertUserModel(user);
+			user = userService.findById(id);
+		}
 		HttpUtil.toJSON(resp.getOutputStream(), user);
 	}
 	

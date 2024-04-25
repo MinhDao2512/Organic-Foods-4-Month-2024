@@ -9,6 +9,11 @@
 				<h2 class="heading-section">Login Account</h2>
 			</div>
 		</div>
+		<c:if test="${not empty alert}">
+			<div class="alert alert-${alert}">
+			  <strong>${message}</strong>
+			</div>
+		</c:if>
 		<div class="row justify-content-center">
 			<div class="col-md-6 col-lg-4">
 				<div class="login-wrap p-0">
