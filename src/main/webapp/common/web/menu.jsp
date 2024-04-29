@@ -47,7 +47,7 @@
 				                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
 				                    Settings
 				                </a>
-				                <c:if test="${USERMODEL.role.code == 'ADMIN'}">
+				                <c:if test="${USERMODEL.role.code != 'USER'}">
 				                <a class="dropdown-item" href="<c:url value = '/admin-trang-chu'/>">
 				                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
 				                    Admin home

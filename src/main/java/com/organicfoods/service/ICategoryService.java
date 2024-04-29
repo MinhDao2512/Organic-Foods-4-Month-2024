@@ -1,5 +1,10 @@
 package com.organicfoods.service;
 
-public interface ICategoryService {
+import java.util.List;
 
+import com.organicfoods.model.CategoryModel;
+
+public interface ICategoryService {
+	List<CategoryModel> findAll();
+	CategoryModel findByCategoryCode(String code);
 }

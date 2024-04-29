@@ -2,7 +2,8 @@ package com.organicfoods.constant;
 
 public class SystemConstant {
 	public static final String MODEL = "model";
-	public static final String LIST = "list";
+	public static final String LIST_PRODUCTS = "list_products";
+	public static final String LIST_USERS = "list_users";
 	public static final String SEARCH = "search";
 	public static final String TOTAL = "total";
 	public static final String USERMODEL = "USERMODEL";
@@ -17,5 +18,6 @@ public class SystemConstant {
 	public static final String LOGOUT = "logout";
 	public static final String ADMIN = "ADMIN";
 	public static final String USER = "USER";
+	public static final String EDIT = "edit";
 	
 }

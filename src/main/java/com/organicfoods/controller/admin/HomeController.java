@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HomeController extends HttpServlet{
 
 	private static final long serialVersionUID = -855549204667891660L;
-
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		RequestDispatcher rd = req.getRequestDispatcher("/views/admin/home.jsp");

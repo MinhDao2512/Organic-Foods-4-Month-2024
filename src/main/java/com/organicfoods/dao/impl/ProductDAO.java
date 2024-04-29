@@ -13,17 +13,17 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 	@Override
 	public Long insertProduct(ProductModel product) {
 		product.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-		StringBuilder sql = new StringBuilder("INSERT INTO product ");
-		sql.append("(code,title,thumbnail,shortdescription,content,price,origin,quantity,categoryid,createddate)");
-		sql.append(" VALUES(?,?,?,?,?,?,?,?,?,?)");
+		StringBuilder sql = new StringBuilder("INSERT INTO product");
+		sql.append("(code,title,thumbnail,shortdescription,content,price,origin,quantity,categoryid,createddate,createdby)");
+		sql.append(" VALUES(?,?,?,?,?,?,?,?,?,?,?)");
 		return insert(sql.toString(),product.getCode(),product.getTitle(),product.getThumbnail(),product.getShortdescription(),
 					product.getContent(),product.getPrice(),product.getOrigin(),product.getQuantity(),product.getCategoryId(),
-					product.getCreatedDate());
+					product.getCreatedDate(),product.getCreatedBy());
 	}
 
 	@Override
 	public ProductModel findById(Long id) {
-		String sql = "SELECT * FROM product AS p WHERE id = ?";
+		String sql = "SELECT * FROM product AS p  INNER JOIN category AS c ON p.categoryid = c.id WHERE p.id = ?";
 		List<ProductModel> results = query(sql,new ProductMapper(),id);
 		return results.isEmpty() ? null : results.get(0);
 	}
@@ -32,11 +32,11 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 	public Boolean updateProduct(ProductModel product) {
 		product.setModifiedDate(new Timestamp(System.currentTimeMillis()));
 		StringBuilder sql = new StringBuilder("UPDATE product ");
-		sql.append("SET code=?,title=?,thumbnail=?,shortdescription=?,content=?,price=?,origin=?,quantity=?,categoryid=?,modifieddate=? ");
+		sql.append("SET code=?,title=?,thumbnail=?,shortdescription=?,content=?,price=?,origin=?,quantity=?,categoryid=?,modifieddate=?, modifiedBy=? ");
 		sql.append("WHERE id=?");
 		return updateOrDelete(sql.toString(),product.getCode(),product.getTitle(),product.getThumbnail(),product.getShortdescription(),
-				product.getContent(),product.getPrice(),product.getOrigin(),product.getQuantity(),product.getCategoryId(),product.getModifiedDate(),
-				product.getId());
+				product.getContent(),product.getPrice(),product.getOrigin(),product.getQuantity(),product.getCategoryId(),
+				product.getModifiedDate(),product.getModifiedBy(),product.getId());
 	}
 
 	@Override

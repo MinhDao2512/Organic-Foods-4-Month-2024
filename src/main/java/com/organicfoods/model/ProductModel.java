@@ -10,7 +10,7 @@ public class ProductModel extends AbstractModel<ProductModel>{
 	private String origin;
 	private Integer quantity;
 	private Long categoryId;
-	private CategoryModel category;
+	private String categoryCode;
 	
 	public String getCode() {
 		return code;
@@ -66,16 +66,12 @@ public class ProductModel extends AbstractModel<ProductModel>{
 	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
 	}
-	public CategoryModel getCategory() {
-		return category;
+	public String getCategoryCode() {
+		return categoryCode;
 	}
-	public void setCategory(CategoryModel category) {
-		this.category = category;
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
 	}
-	@Override
-	public String toString() {
-		return "ProductModel [code=" + code + ", title=" + title + ", thumbnail=" + thumbnail + ", price=" + price
-				+ ", origin=" + origin + ", quantity=" + quantity + ", category=" + category.getName() + "]";
-	}
+	
 	
 }

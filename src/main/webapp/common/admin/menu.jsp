@@ -50,9 +50,14 @@
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
-        <a class="nav-link" href="<c:url value = '/admin-products?page=1&itemsPerPage=5&sortName=title&sortBy=asc&type=list'/>">
+        <a class="nav-link" href="<c:url value = '/admin-products?page=1&itemsPerPage=5&sortName=title&sortBy=asc&type=list_products'/>">
             <i class="fas fa-fw fa-table"></i>
             <span>Products Table</span></a>
+        <c:if test="${USERMODEL.role.code == 'ADMIN'}">
+	        <a class="nav-link" href="<c:url value = '/admin-user?page=1&itemsPerPage=5&sortName=fullname&sortBy=asc&type=list_users'/>">
+	            <i class="fas fa-fw fa-table"></i>
+	            <span>Users Table</span></a>
+        </c:if>
     </li>
 
     <!-- Divider -->

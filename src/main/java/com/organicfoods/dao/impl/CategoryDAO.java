@@ -35,4 +35,11 @@ public class CategoryDAO extends AbstractDAO<CategoryModel> implements ICategory
 		return insert(sql, category.getName(), category.getCode(), category.getCreatedDate());
 	}
 
+	@Override
+	public CategoryModel findByCategoryCode(String code) {
+		String sql = "SELECT * FROM category WHERE code = ?";
+		List<CategoryModel> results = query(sql,new CategoryMapper(),code);
+		return results.isEmpty() ? null : results.get(0);
+	}
+
 }

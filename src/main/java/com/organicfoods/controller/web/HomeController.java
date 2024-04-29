@@ -46,12 +46,18 @@ public class HomeController extends HttpServlet{
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.PAGES_CART)) {
 			view = "/views/web/pages/cart.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(view);
+			rd.forward(req, resp);
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.PAGES_CHECKOUT)) {
 			view = "/views/web/pages/checkout.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(view);
+			rd.forward(req, resp);
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.PAGES_TESTIMONIAL)) {
 			view = "/views/web/pages/testimonial.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(view);
+			rd.forward(req, resp);
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.PAGES_404PAGE)) {
 			view = "/views/web/pages/404page.jsp";
@@ -60,7 +66,8 @@ public class HomeController extends HttpServlet{
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.CONTACT)) {
 			view = "/views/web/contact.jsp";
-			
+			RequestDispatcher rd = req.getRequestDispatcher(view);
+			rd.forward(req, resp);
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.REGISTER)) {
 			if(user.getAlert() != null && user.getMessage() != null) {
@@ -101,11 +108,11 @@ public class HomeController extends HttpServlet{
 			user = userService.findByUsernameAndPasswordAndStatus(user.getUserName(), user.getPassWord(), 1);
 			if(user != null) {
 				SessionUtil.getInstance().putValue(req, SystemConstant.USERMODEL, user);
-				if(user.getRole().getCode().equals(SystemConstant.ADMIN)) {
-					resp.sendRedirect(req.getContextPath() + "/admin-trang-chu");
+				if(user.getRole().getCode().equals(SystemConstant.USER)) {
+					resp.sendRedirect(req.getContextPath() + "/trang-chu");
 				}
 				else {
-					resp.sendRedirect(req.getContextPath() + "/trang-chu");
+					resp.sendRedirect(req.getContextPath() + "/admin-trang-chu");
 				}
 			}
 			else {

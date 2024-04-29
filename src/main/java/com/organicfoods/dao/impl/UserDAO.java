@@ -6,6 +6,7 @@ import java.util.List;
 import com.organicfoods.dao.IUserDAO;
 import com.organicfoods.mapper.impl.UserMapper;
 import com.organicfoods.model.UserModel;
+import com.organicfoods.paging.Pageble;
 
 public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO{
 
@@ -43,6 +44,37 @@ public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO{
 		String sql = "SELECT * FROM user WHERE id=?";
 		List<UserModel> results = query(sql, new UserMapper(), id);
 		return results.isEmpty() ? null : results.get(0);
+	}
+
+	@Override
+	public Integer countUsers() {
+		String sql = "SELECT COUNT(*) FROM user";
+		return count(sql);
+	}
+
+	@Override
+	public List<UserModel> findByOffsetAndLimit(Pageble pageble) {
+		StringBuilder sql = new StringBuilder("SELECT * FROM user AS u ");
+		sql.append("INNER JOIN role AS r ON u.roleid=r.id ");
+		sql.append("ORDER BY " + pageble.getSorter().getSortName() + " " + pageble.getSorter().getSortBy());
+		sql.append(" LIMIT ?,?");
+		return query(sql.toString(), new UserMapper(), pageble.getOffset(), pageble.getLimit());
+	}
+
+	@Override
+	public List<UserModel> findByUsername(Pageble pageble, String keyword) {
+		StringBuilder sql = new StringBuilder("SELECT * FROM user AS u ");
+		sql.append("INNER JOIN role AS r ON u.roleid=r.id WHERE username LIKE '%" + keyword + "%' ");
+		sql.append("ORDER BY " + pageble.getSorter().getSortName() + " " + pageble.getSorter().getSortBy());
+		sql.append(" LIMIT ?,?");
+		return query(sql.toString(), new UserMapper(), pageble.getOffset(), pageble.getLimit());
+	}
+
+	@Override
+	public Integer countUsersByUsername(String keyword) {
+		StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM user ");
+		sql.append("WHERE username LIKE '%" + keyword + "%'");
+		return count(sql.toString());
 	}
 
 }

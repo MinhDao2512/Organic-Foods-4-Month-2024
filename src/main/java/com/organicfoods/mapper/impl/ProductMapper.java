@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.organicfoods.mapper.RowMapper;
-import com.organicfoods.model.CategoryModel;
 import com.organicfoods.model.ProductModel;
 
 public class ProductMapper implements RowMapper<ProductModel>{
@@ -24,10 +23,7 @@ public class ProductMapper implements RowMapper<ProductModel>{
 			product.setQuantity(resultSet.getInt("quantity"));
 			product.setCategoryId(resultSet.getLong("categoryid"));		
 			try {
-				CategoryModel categoryModel = new CategoryModel();
-				categoryModel.setName(resultSet.getString("c.name"));
-				categoryModel.setCode(resultSet.getString("c.code"));
-				product.setCategory(categoryModel);
+				product.setCategoryCode(resultSet.getString("c.code"));
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}

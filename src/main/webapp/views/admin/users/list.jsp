@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@include file = "/common/taglib.jsp" %>
 
-<c:url var="URLpattern" value="/admin-products"></c:url>
+<c:url var="URLpattern" value="/admin-user"></c:url>
 
 <style>
 	.left{
@@ -24,9 +24,9 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">	        
 	    <div class="card-header py-3">
-	        <h6 class="right">Products Table</h6>
+	        <h6 class="right">Users Table</h6>
 	        
-	        <form action="<c:url value='/admin-products?'/>" method = "GET" class="row align-items-center" id="formSearch">
+	        <form action="<c:url value='/admin-user?'/>" method = "GET" class="row align-items-center" id="formSearch">
 				<div class="col-auto">
 					<input type="text" value="${model.keyword}" name="keyword" id="keyword" class="form-control" placeholder="Enter code"/>
 			        <input type="hidden" id="page" name="page" value=""/>
@@ -51,12 +51,13 @@
 	                <thead>
 	                    <tr>
 	                    	<th><input type="checkbox" id="selectAll" name="selectAll" title="selectAll"/></th>
-	                    	<th>Code</th>
-	                        <th>Title</th>
-	                        <th>Origin</th>
-	                        <th>Price</th>
-	                        <th>Category code</th>
-	                        <th>Quantity</th>
+	                    	<th>Id</th>
+	                        <th>Full name</th>
+	                        <th>User name</th>
+	                        <th>Email</th>
+	                        <th>Phone</th>
+	                        <th>Address</th>
+	                        <th>Role</th>
 	                        <th>Edit</th>
 	                    </tr>
 	                </thead>
@@ -69,19 +70,16 @@
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                 </select>
-								products
+								users
 							</div>	
 							<div class="right">
 								Search:
 								<input class="radius_e" type="search" name="search" id="search"/>
 								<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
-							   		title="Xóa sản phẩm"><i class="fas fa-trash-alt"></i>
+							   		title="Xóa tài khoản"><i class="fas fa-trash-alt"></i>
 								</a>
-								<c:url var="editURL" value="/admin-products">
-	                        		<c:param name="type" value="edit"/>
-	                        	</c:url>
 								<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
-							   		title="Thêm sản phẩm" href="${editURL}"><i class="fa fa-plus" aria-hidden="true"></i>
+							   		title="Thêm tài khoản"><i class="fa fa-plus" aria-hidden="true"></i>
 								</a>
 							</div>	  
 	                	</tr> 
@@ -90,19 +88,16 @@
 	                	<c:forEach var="item" items="${model.listResults}">
 	                    <tr>
 	                    	<td><input type="checkbox" id="select" name="select" title="select"/></td>
-	                    	<td>${item.code}</td>
-	                        <td>${item.title}</td>
-	                        <td>${item.origin}</td>
-	                        <td>${item.price}</td>
-	                        <td>${item.categoryCode}</td>
-	                        <td>${item.quantity} kg</td>
+	                    	<td>${item.id}</td>
+	                        <td>${item.fullName}</td>
+	                        <td>${item.userName}</td>
+	                        <td>${item.email}</td>
+	                        <td>${item.phone}</td>
+	                        <td>${item.address}</td>
+	                        <td>${item.role.code}</td>
 	                        <td>
-	                        	<c:url var="editURL" value="/admin-products">
-	                        		<c:param name="type" value="edit"/>
-	                        		<c:param name="id" value="${item.id}"/>
-	                        	</c:url>
 	                        	<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
-							   		title="Cập nhật sản phẩm" href='${editURL}'><i class="fas fa-edit"></i>
+							   		title="Cập nhật tài khoản"><i class="fas fa-edit"></i>
 								</a>
 	                        </td>
 	                    </tr>
@@ -135,7 +130,7 @@ $(function() {
         $.ajax({
             url: '${URLpattern}',
             type: 'GET',
-            data: { page: currentPageSelected, itemsPerPage: selectedValue, sortName: 'title', sortBy: 'asc', type: type, keyword: keyword},
+            data: { page: currentPageSelected, itemsPerPage: selectedValue, sortName: 'fullname', sortBy: 'asc', type: type, keyword: keyword},
             success: function(data) {
                 console.log('Data reloaded successfully');             
                 $('body').html(data);
@@ -175,7 +170,7 @@ $(function() {
             startPage: currentPage,
             onPageClick: function (event, page) {
                 if (${model.page} != page) {
-                    $('#sortName').val('title');
+                    $('#sortName').val('fullname');
                     $('#sortBy').val('asc');
                     $('#page').val(page);
                     if(keyword !== ''){
@@ -193,12 +188,12 @@ $(function() {
         var keywordValue = $('#keyword').val();
         if (keywordValue.trim() !== '') { // Kiểm tra xem giá trị của keyword có giá trị không
             $('#type').val('search');
-            $('#sortName').val('title');
+            $('#sortName').val('fullname');
             $('#sortBy').val('asc');
             $('#page').val(1);
            	$('#itemsPerPage').val(10);
         } else {
-            $('#type').val('list');
+            $('#type').val('list');	
         }
     });
 

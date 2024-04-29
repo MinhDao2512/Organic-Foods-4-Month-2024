@@ -14,6 +14,7 @@ import com.organicfoods.constant.SystemConstant;
 import com.organicfoods.model.ProductModel;
 import com.organicfoods.paging.Pageble;
 import com.organicfoods.paging.impl.PageRequest;
+import com.organicfoods.service.ICategoryService;
 import com.organicfoods.service.IProductService;
 import com.organicfoods.sorting.Sorter;
 import com.organicfoods.util.FormUtil;
@@ -26,19 +27,32 @@ public class ProductsController extends HttpServlet{
 	@Inject
 	private IProductService productService;
 	
+	@Inject
+	private ICategoryService categoryService;
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ProductModel model = FormUtil.mapValueToModel(ProductModel.class, req);
-		Pageble pageble = new PageRequest(model.getPage(), model.getItemsPerPage(), new Sorter(model.getSortName(),model.getSortBy()));
 		String view = "/views/admin/products/list.jsp";
-		if(model.getType() != null && model.getType().equals(SystemConstant.LIST)) {
+		if(model.getType() != null && model.getType().equals(SystemConstant.LIST_PRODUCTS)) {
+			Pageble pageble = new PageRequest(model.getPage(), model.getItemsPerPage(), new Sorter(model.getSortName(),model.getSortBy()));
 			model.setTotalItems(productService.countProducts());
 			model.setTotalPages();
 			model.setListResults(productService.findByOffsetAndLimit(pageble));
-			req.setAttribute(SystemConstant.MODEL, model);
 			req.setAttribute(SystemConstant.TOTAL, productService.countProducts());
 		}
+		else if(model.getType() != null && model.getType().equals(SystemConstant.EDIT)) {
+			if(model.getId() != null) {
+				model = productService.findById(model.getId());
+			}
+			else {
+				
+			}
+			req.setAttribute("categories", categoryService.findAll());
+			view = "/views/admin/products/edit.jsp";
+		}
 		else if(model.getType() != null && model.getType().equals(SystemConstant.SEARCH)) {
+			Pageble pageble = new PageRequest(model.getPage(), model.getItemsPerPage(), new Sorter(model.getSortName(),model.getSortBy()));
 			model.setTotalItems(productService.countProductsByCode(model.getKeyword()));
 			model.setTotalPages();
 			model.setListResults(productService.findByCode(pageble,model.getKeyword()));
