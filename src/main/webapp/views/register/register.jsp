@@ -7,9 +7,8 @@
 <div class="container">
 	<div class="signup-content">
 		<c:if test="${not empty alert}">
-			<div class="alert alert-${alert}">
-				<c:if test=""></c:if>
-			    <strong>${message}</strong>
+			<div class="alert alert-${alert}" role="alert">
+				<span>${message}</span>
 			</div>
 		</c:if>
 		<div class="signup-form">

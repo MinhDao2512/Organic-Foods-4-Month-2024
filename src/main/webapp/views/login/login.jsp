@@ -10,8 +10,8 @@
 			</div>
 		</div>
 		<c:if test="${not empty alert}">
-			<div class="alert alert-${alert}">
-			  <strong>${message}</strong>
+			<div class="alert alert-${alert}" role="alert">
+				<span>${message}</span>
 			</div>
 		</c:if>
 		<div class="row justify-content-center">

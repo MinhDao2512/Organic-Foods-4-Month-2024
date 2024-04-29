@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@include file = "/common/taglib.jsp" %>
 
-<c:url var="URLpattern" value="/admin-products"></c:url>
+<c:url var="URLpattern" value="/admin-products"/>
+<c:url var="APIurl" value='/api-admin-product'/>
 
 <style>
 	.left{
@@ -15,7 +16,7 @@
 		color: #81c408;
 	}
 	.radius_e{
-		border-radius: 0.35rem;
+		border-radius: 0.35rem;	
 	}
 </style>
 
@@ -24,7 +25,7 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">	        
 	    <div class="card-header py-3">
-	        <h6 class="right">Products Table</h6>
+	        <h6 class="right">Products table</h6>
 	        
 	        <form action="<c:url value='/admin-products?'/>" method = "GET" class="row align-items-center" id="formSearch">
 				<div class="col-auto">
@@ -41,7 +42,7 @@
 				</div>
 	        </form>
 	        
-			<h6 class="right">Total records: ${total}</h6>
+			<h6 class="right">Total products: ${total}</h6>
 
 	    </div>
 	    
@@ -74,9 +75,10 @@
 							<div class="right">
 								Search:
 								<input class="radius_e" type="search" name="search" id="search"/>
-								<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
-							   		title="Xóa sản phẩm"><i class="fas fa-trash-alt"></i>
-								</a>
+								<button id="btnDelete" type="button" class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip" title='Xóa sản phẩm'>
+									<span><i class="fas fa-trash-alt"></i></span>
+								</button>
+								
 								<c:url var="editURL" value="/admin-products">
 	                        		<c:param name="type" value="edit"/>
 	                        	</c:url>
@@ -89,7 +91,7 @@
 	                	</br>     
 	                	<c:forEach var="item" items="${model.listResults}">
 	                    <tr>
-	                    	<td><input type="checkbox" id="select" name="select" title="select"/></td>
+	                    	<td><input type="checkbox" id="checkbox_${item.id}" title="select" value="${item.id}"/></td>
 	                    	<td>${item.code}</td>
 	                        <td>${item.title}</td>
 	                        <td>${item.origin}</td>
@@ -202,7 +204,30 @@ $(function() {
         }
     });
 
-    
+	$('#btnDelete').click(function(){
+		var data = {};
+		var ids = $('tbody input[type=checkbox]:checked').map(function(){
+			return $(this).val();
+		}).get();
+		data['ids'] = ids;
+		deleteProducts(data);
+	});
+
+	function deleteProducts(data){
+		$.ajax({
+			url: '${APIurl}',
+			type: 'DELETE',
+			contentType: 'application/json',
+			data: JSON.stringify(data),
+			dataType: 'json',
+			success: function(result){
+				window.location.href = "${URLpattern}?type=list_products&page=1&itemsPerPage=5&sortName=title&sortBy=desc";
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+    }
     // Khởi tạo thư viện twbsPagination khi trang được tải lần đầu tiên
     initializePagination(${model.totalPages},${model.page});
 

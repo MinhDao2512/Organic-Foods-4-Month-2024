@@ -1,6 +1,7 @@
 package com.organicfoods.controller.admin;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
@@ -30,6 +31,8 @@ public class ProductsController extends HttpServlet{
 	@Inject
 	private ICategoryService categoryService;
 	
+	ResourceBundle bundle = ResourceBundle.getBundle("message");
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ProductModel model = FormUtil.mapValueToModel(ProductModel.class, req);
@@ -43,10 +46,17 @@ public class ProductsController extends HttpServlet{
 		}
 		else if(model.getType() != null && model.getType().equals(SystemConstant.EDIT)) {
 			if(model.getId() != null) {
+				if(model.getAlert() != null && model.getMessage() != null) {
+					req.setAttribute(SystemConstant.ALERT, model.getAlert());
+					req.setAttribute(SystemConstant.MESSAGE, bundle.getString(model.getMessage()));
+				}
 				model = productService.findById(model.getId());
 			}
 			else {
-				
+				if(model.getAlert() != null && model.getMessage() != null) {
+					req.setAttribute(SystemConstant.ALERT, model.getAlert());
+					req.setAttribute(SystemConstant.MESSAGE, bundle.getString(model.getMessage()));
+				}
 			}
 			req.setAttribute("categories", categoryService.findAll());
 			view = "/views/admin/products/edit.jsp";
@@ -65,7 +75,6 @@ public class ProductsController extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		super.doPost(req, resp);
 	}
 }

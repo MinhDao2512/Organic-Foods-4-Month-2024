@@ -116,7 +116,7 @@ public class HomeController extends HttpServlet{
 				}
 			}
 			else {
-				resp.sendRedirect(req.getContextPath() + "/dang-nhap?action=login");
+				resp.sendRedirect(req.getContextPath() + "/dang-nhap?action=login&alert=danger&message=message_success");
 			}
 		}
 	}

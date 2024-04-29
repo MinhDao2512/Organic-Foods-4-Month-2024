@@ -21,6 +21,7 @@ public class AbstractModel<T> {
 	private String keyword;
 	private String alert;
 	private String message;
+	private Long[] ids;
 	
 	public Long getId() {
 		return id;
@@ -120,6 +121,12 @@ public class AbstractModel<T> {
 	}
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	public Long[] getIds() {
+		return ids;
+	}
+	public void setIds(Long[] ids) {
+		this.ids = ids;
 	}
 	
 }

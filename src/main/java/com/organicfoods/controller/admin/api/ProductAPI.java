@@ -56,6 +56,7 @@ public class ProductAPI extends HttpServlet{
 		product.setModifiedBy(user.getUserName());
 		Long id = product.getId();
 		productService.updateProduct(product);
+		
 		product = productService.findById(id);
 		HttpUtil.toJSON(resp.getOutputStream(), product);
 	}
@@ -65,9 +66,10 @@ public class ProductAPI extends HttpServlet{
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json");
 		ProductModel product = HttpUtil.toStrJSON(req.getReader()).toModel(ProductModel.class);
-		Long id = product.getId();
-		productService.deleteProduct(id);
-		product = productService.findById(id);
+		for(Long id : product.getIds()) {
+			productService.deleteProduct(id);
+			product = productService.findById(id);
+		}
 		HttpUtil.toJSON(resp.getOutputStream(), product);
 	}
 }
