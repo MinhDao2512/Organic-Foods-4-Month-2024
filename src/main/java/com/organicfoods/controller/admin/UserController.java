@@ -35,13 +35,11 @@ public class UserController extends HttpServlet{
 			model.setTotalItems(userService.countUsers());
 			model.setTotalPages();
 			model.setListResults(userService.findByOffsetAndLimit(pageble));
-			req.setAttribute(SystemConstant.TOTAL, userService.countUsers());
 		}
 		else if(model.getType() != null && model.getType().equals(SystemConstant.SEARCH)) {
 			model.setTotalItems(userService.countUsersByUsername(model.getKeyword()));
 			model.setTotalPages();
 			model.setListResults(userService.findByUsername(pageble,model.getKeyword()));
-			req.setAttribute(SystemConstant.TOTAL, userService.countUsersByUsername(model.getKeyword()));
 		}
 		req.setAttribute(SystemConstant.MODEL, model);
 		RequestDispatcher rd = req.getRequestDispatcher(view);

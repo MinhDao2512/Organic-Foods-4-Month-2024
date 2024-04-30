@@ -34,7 +34,7 @@ public class AuthorizationFilter implements Filter{
 		if(uri.startsWith("/veggiesandfruits4month2024/admin")) {
 			UserModel user = (UserModel)SessionUtil.getInstance().getValue(req, SystemConstant.USERMODEL);
 			if(user != null) {
-				if(user.getRole().getCode().equals(SystemConstant.USER)) {
+				if(user.getRoleCode().equals(SystemConstant.USER)) {
 					resp.sendRedirect(req.getContextPath() + "/trang-chu?action=pages_404page");
 				}
 				else {

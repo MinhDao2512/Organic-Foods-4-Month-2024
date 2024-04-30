@@ -19,7 +19,7 @@
 			<div class="col-sm-10">
 				<c:if test="${empty model.categoryCode}">
 					<select class="form-control" id="categoryCode" name="categoryCode">
-						<option value="">Chọn thể loại bài viết</option>
+						<option value="">Chọn thể loại sản phẩm</option>
 						<c:forEach var="item" items="${categories}">
 							<option value="${item.code}">${item.name}</option>
 						</c:forEach>
@@ -27,7 +27,7 @@
 				</c:if>
 				<c:if test="${not empty model.categoryCode}">
 					<select class="form-control" id="categoryCode" name="categoryCode">
-						<option value="">Chọn thể loại bài viết</option>
+						<option value="">Chọn thể loại sản phẩm</option>
 						<c:forEach var="item" items="${categories}">
 							<option value="${item.code}"
 								<c:if test="${item.code == model.categoryCode}"> selected="selected"</c:if>>

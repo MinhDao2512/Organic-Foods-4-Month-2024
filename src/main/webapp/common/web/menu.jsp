@@ -32,7 +32,7 @@
 		                <li class="nav-item dropdown no-arrow">
 				            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
 				                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${USERMODEL.role.code}</span>
+				                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${USERMODEL.userName} - ${USERMODEL.roleCode}</span>
 				                <i class="fas fa-user fa-2x"></i>
 				            </a>
 				            
@@ -46,7 +46,7 @@
 				                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
 				                    Settings
 				                </a>
-				                <c:if test="${USERMODEL.role.code != 'USER'}">
+				                <c:if test="${USERMODEL.roleCode != 'USER'}">
 				                <a class="dropdown-item" href="<c:url value = '/admin-trang-chu'/>">
 				                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
 				                    Admin home

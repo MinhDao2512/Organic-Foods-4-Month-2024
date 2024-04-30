@@ -41,7 +41,7 @@
 				</div>
 	        </form>
 	        
-			<h6 class="right">Total records: ${total}</h6>
+			<h6 class="right">Total records: ${model.totalItems}</h6>
 
 	    </div>
 	    
@@ -94,7 +94,7 @@
 	                        <td>${item.email}</td>
 	                        <td>${item.phone}</td>
 	                        <td>${item.address}</td>
-	                        <td>${item.role.code}</td>
+	                        <td>${item.roleCode}</td>
 	                        <td>
 	                        	<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
 							   		title="Cập nhật tài khoản"><i class="fas fa-edit"></i>

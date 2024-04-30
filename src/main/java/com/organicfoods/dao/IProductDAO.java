@@ -15,4 +15,6 @@ public interface IProductDAO extends GenericDAO<ProductModel>{
 	Integer countProducts();
 	List<ProductModel> findByCode(Pageble pageble, String code);
 	Integer countProductsByCode(String code);
+	List<ProductModel> findByCreatedBy(Pageble pageble, String userName);
+	Integer countProductsByCreatedBy(String userName);
 }

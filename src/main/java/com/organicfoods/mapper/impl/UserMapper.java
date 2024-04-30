@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.organicfoods.mapper.RowMapper;
-import com.organicfoods.model.RoleModel;
 import com.organicfoods.model.UserModel;
 
 public class UserMapper implements RowMapper<UserModel>{
@@ -24,10 +23,7 @@ public class UserMapper implements RowMapper<UserModel>{
 			user.setStatus(resultSet.getInt("status"));
 			user.setRoleId(resultSet.getLong("roleid"));
 			try {
-				RoleModel role = new RoleModel();
-				role.setCode(resultSet.getString("code"));
-				role.setName(resultSet.getString("name"));
-				user.setRole(role);
+				user.setRoleCode(resultSet.getString("r.code"));
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}

@@ -5,7 +5,6 @@ public class SystemConstant {
 	public static final String LIST_PRODUCTS = "list_products";
 	public static final String LIST_USERS = "list_users";
 	public static final String SEARCH = "search";
-	public static final String TOTAL = "total";
 	public static final String USERMODEL = "USERMODEL";
 	public static final String CONTACT = "contact";
 	public static final String SHOP = "shop";
@@ -21,4 +20,6 @@ public class SystemConstant {
 	public static final String EDIT = "edit";
 	public static final String ALERT = "alert";
 	public static final String MESSAGE = "message";
+	public static final String SELL = "SELL";
+	public static final String ADMIN1 = "ADMIN1";
 }

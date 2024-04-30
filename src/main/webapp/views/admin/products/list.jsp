@@ -42,7 +42,7 @@
 				</div>
 	        </form>
 	        
-			<h6 class="right">Total products: ${total}</h6>
+			<h6 class="right">Total products: ${model.totalItems}</h6>
 
 	    </div>
 	    
@@ -58,6 +58,8 @@
 	                        <th>Price</th>
 	                        <th>Category code</th>
 	                        <th>Quantity</th>
+	                        <th>Created by</th>
+	                        <th>Modified by</th>
 	                        <th>Edit</th>
 	                    </tr>
 	                </thead>
@@ -98,6 +100,8 @@
 	                        <td>${item.price}</td>
 	                        <td>${item.categoryCode}</td>
 	                        <td>${item.quantity} kg</td>
+	                        <td>${item.createdBy}</td>
+	                        <td>${item.modifiedBy}</td>
 	                        <td>
 	                        	<c:url var="editURL" value="/admin-products">
 	                        		<c:param name="type" value="edit"/>

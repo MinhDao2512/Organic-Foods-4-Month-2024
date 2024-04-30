@@ -13,12 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.organicfoods.constant.SystemConstant;
 import com.organicfoods.model.ProductModel;
+import com.organicfoods.model.UserModel;
 import com.organicfoods.paging.Pageble;
 import com.organicfoods.paging.impl.PageRequest;
 import com.organicfoods.service.ICategoryService;
 import com.organicfoods.service.IProductService;
 import com.organicfoods.sorting.Sorter;
 import com.organicfoods.util.FormUtil;
+import com.organicfoods.util.SessionUtil;
 
 @WebServlet(urlPatterns = {"/admin-products"})
 public class ProductsController extends HttpServlet{
@@ -38,11 +40,18 @@ public class ProductsController extends HttpServlet{
 		ProductModel model = FormUtil.mapValueToModel(ProductModel.class, req);
 		String view = "/views/admin/products/list.jsp";
 		if(model.getType() != null && model.getType().equals(SystemConstant.LIST_PRODUCTS)) {
+			UserModel user = (UserModel)SessionUtil.getInstance().getValue(req, SystemConstant.USERMODEL);
 			Pageble pageble = new PageRequest(model.getPage(), model.getItemsPerPage(), new Sorter(model.getSortName(),model.getSortBy()));
-			model.setTotalItems(productService.countProducts());
-			model.setTotalPages();
-			model.setListResults(productService.findByOffsetAndLimit(pageble));
-			req.setAttribute(SystemConstant.TOTAL, productService.countProducts());
+			if(user.getRoleCode().equals(SystemConstant.ADMIN) || user.getRoleCode().equals(SystemConstant.ADMIN1)) {
+				model.setTotalItems(productService.countProducts());
+				model.setTotalPages();
+				model.setListResults(productService.findByOffsetAndLimit(pageble));
+			}
+			else if(user.getRoleCode().equals(SystemConstant.SELL)) {
+				model.setTotalItems(productService.countProductsByCreatedBy(user.getUserName()));
+				model.setTotalPages();
+				model.setListResults(productService.findByCreatedBy(pageble,user.getUserName()));
+			}
 		}
 		else if(model.getType() != null && model.getType().equals(SystemConstant.EDIT)) {
 			if(model.getId() != null) {
@@ -66,7 +75,6 @@ public class ProductsController extends HttpServlet{
 			model.setTotalItems(productService.countProductsByCode(model.getKeyword()));
 			model.setTotalPages();
 			model.setListResults(productService.findByCode(pageble,model.getKeyword()));
-			req.setAttribute(SystemConstant.TOTAL, productService.countProductsByCode(model.getKeyword()));
 		}
 		req.setAttribute(SystemConstant.MODEL, model);
 		RequestDispatcher rd = req.getRequestDispatcher(view);

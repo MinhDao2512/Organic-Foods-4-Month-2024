@@ -108,7 +108,7 @@ public class HomeController extends HttpServlet{
 			user = userService.findByUsernameAndPasswordAndStatus(user.getUserName(), user.getPassWord(), 1);
 			if(user != null) {
 				SessionUtil.getInstance().putValue(req, SystemConstant.USERMODEL, user);
-				if(user.getRole().getCode().equals(SystemConstant.USER)) {
+				if(user.getRoleCode().equals(SystemConstant.USER)) {
 					resp.sendRedirect(req.getContextPath() + "/trang-chu");
 				}
 				else {

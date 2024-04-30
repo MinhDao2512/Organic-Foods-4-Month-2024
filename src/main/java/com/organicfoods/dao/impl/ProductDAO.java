@@ -80,5 +80,20 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 		sql.append(" WHERE code LIKE '%" + code + "%'");
 		return count(sql.toString());
 	}
+
+	@Override
+	public List<ProductModel> findByCreatedBy(Pageble pageble, String userName) {
+		StringBuilder sql = new StringBuilder("SELECT * FROM product AS p INNER JOIN category AS c ON p.categoryid = c.id ");
+		sql.append("WHERE p.createdby=? ");
+		sql.append("ORDER BY p." + pageble.getSorter().getSortName() + " " + pageble.getSorter().getSortBy());
+		sql.append(" LIMIT ?,?");
+		return query(sql.toString(), new ProductMapper(), userName, pageble.getOffset(), pageble.getLimit());
+	}
+
+	@Override
+	public Integer countProductsByCreatedBy(String userName) {
+		String sql = "SELECT COUNT(*) FROM product WHERE createdby = ?";
+		return count(sql, userName);
+	}
 	
 }

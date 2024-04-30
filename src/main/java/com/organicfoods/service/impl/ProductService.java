@@ -59,4 +59,16 @@ public class ProductService implements IProductService{
 		return productDAO.countProductsByCode(code);
 	}
 
+	@Override
+	public List<ProductModel> findByCreatedBy(Pageble pageble, String userName) {
+		return productDAO.findByCreatedBy(pageble, userName);
+	}
+
+	@Override
+	public Integer countProductsByCreatedBy(String userName) {
+		return productDAO.countProductsByCreatedBy(userName);
+	}
+	
+	
+
 }
