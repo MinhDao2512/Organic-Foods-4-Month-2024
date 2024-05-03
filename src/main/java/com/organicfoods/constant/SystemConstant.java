@@ -22,4 +22,5 @@ public class SystemConstant {
 	public static final String MESSAGE = "message";
 	public static final String SELL = "SELL";
 	public static final String ADMIN1 = "ADMIN1";
+	public static final String CART = "CART";
 }

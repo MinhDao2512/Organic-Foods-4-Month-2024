@@ -14,6 +14,11 @@
 		<sitemesh.version>2.4.2</sitemesh.version>
 		<mysql.connector.java.version>8.0.28</mysql.connector.java.version>
 		<weld.servlet.version>1.1.0.Final</weld.servlet.version>
+		<!--Start Email Version-->
+		<mail.api.version>1.6.2</mail.api.version>
+		<activation.version>1.2.0</activation.version>
+		<!--End Email Version-->
+		
 		<!--Version Jackson-->
 		<jackson.core.version>2.6.3</jackson.core.version>
 		<jackson.databind.version>2.6.3</jackson.databind.version>
@@ -72,7 +77,8 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.connector.java.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.jboss.weld.servlet/weld-servlet -->
+		<!--
+		https://mvnrepository.com/artifact/org.jboss.weld.servlet/weld-servlet -->
 		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet</artifactId>
@@ -107,7 +113,8 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>${jackson.mapper.asl}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl -->
+		<!--
+		https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
@@ -121,5 +128,21 @@
 			<artifactId>commons-beanutils</artifactId>
 			<version>${commons.beanutils.version}</version>
 		</dependency>
+
+		<!--Start Email-->
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>${mail.api.version}</version>
+		</dependency>
+		<!--
+		https://mvnrepository.com/artifact/com.sun.activation/javax.activation -->
+		<dependency>
+			<groupId>com.sun.activation</groupId>
+			<artifactId>javax.activation</artifactId>
+			<version>${activation.version}</version>
+		</dependency>
+		<!--End Email-->
 	</dependencies>
 </project>

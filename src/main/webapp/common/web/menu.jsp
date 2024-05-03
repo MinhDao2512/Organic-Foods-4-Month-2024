@@ -11,7 +11,7 @@
         <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
             <div class="navbar-nav mx-auto">
                 <a href="<c:url value = '/trang-chu'/>" class="nav-item nav-link active">Home</a>
-                <a href="<c:url value = '/trang-chu?action=shop&status=active'/>" class="nav-item nav-link">Shop</a>
+                <a href="<c:url value = '/trang-chu?action=shop'/>" class="nav-item nav-link">Shop</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
@@ -23,11 +23,16 @@
             </div>
             <div class="d-flex m-3 me-0">
                 <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                <a href="<c:url value = '/trang-chu?action=pages_cart'/>" class="position-relative me-4 my-auto">
-                    <i class="fa fa-shopping-bag fa-2x"></i>
-                    <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
-                </a>
                 <c:if test="${not empty USERMODEL}">
+                	<a href="<c:url value = '/trang-chu?action=pages_cart'/>" class="position-relative me-4 my-auto">
+	                    <i class="fa fa-shopping-bag fa-2x"></i>
+	                   	<c:if test="${not empty CART}">
+	                    	<span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${CART.size()}</span>
+	                	</c:if>
+	                	<c:if test="${empty CART}">
+	                    	<span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
+	                	</c:if>
+	                </a>
                 	<ul class="navbar-nav ml-auto">
 		                <li class="nav-item dropdown no-arrow">
 				            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -63,7 +68,7 @@
                 </c:if>
                 <c:if test="${empty USERMODEL}">
 	                <a href="<c:url value = '/dang-nhap?action=login'/>" class="my-auto">
-	                    <i class="fas fa-user fa-2x"></i>
+	                    <i class="fas fa-user fa-2x"></i>  Login/Sign Up
 	                </a>
                 </c:if>
             </div>

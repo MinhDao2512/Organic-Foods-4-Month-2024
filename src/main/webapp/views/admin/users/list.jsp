@@ -41,7 +41,7 @@
 				</div>
 	        </form>
 	        
-			<h6 class="right">Total records: ${model.totalItems}</h6>
+			<h6 class="right">Total users: ${model.totalItems}</h6>
 
 	    </div>
 	    

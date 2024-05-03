@@ -89,6 +89,7 @@ public class HomeController extends HttpServlet{
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.LOGOUT)) {
 			SessionUtil.getInstance().removeValue(req, SystemConstant.USERMODEL);
+			SessionUtil.getInstance().removeValue(req, SystemConstant.CART);
 			resp.sendRedirect(req.getContextPath() + "/trang-chu");
 		}
 		else {
@@ -108,6 +109,7 @@ public class HomeController extends HttpServlet{
 			user = userService.findByUsernameAndPasswordAndStatus(user.getUserName(), user.getPassWord(), 1);
 			if(user != null) {
 				SessionUtil.getInstance().putValue(req, SystemConstant.USERMODEL, user);
+				
 				if(user.getRoleCode().equals(SystemConstant.USER)) {
 					resp.sendRedirect(req.getContextPath() + "/trang-chu");
 				}

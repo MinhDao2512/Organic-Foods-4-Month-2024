@@ -16,15 +16,14 @@ public class BillDetailsMapper implements RowMapper<BillDetailsModel>{
 			billDetails.setProductId(resultSet.getLong("productid"));
 			billDetails.setQuantity(resultSet.getInt("quantity"));
 			billDetails.setTotalPrice(resultSet.getDouble("totalprice"));
-			billDetails.setBillId(resultSet.getLong("billid"));
 			billDetails.setCreatedDate(resultSet.getTimestamp("createddate"));
 			billDetails.setModifiedDate(resultSet.getTimestamp("modifieddate"));
 			billDetails.setCreatedBy(resultSet.getString("createdby"));
 			billDetails.setModifiedBy(resultSet.getString("modifiedby"));
+			return billDetails;
 		} catch (SQLException e) {
 			return null;
 		}
-		return null;
 	}
 
 }
