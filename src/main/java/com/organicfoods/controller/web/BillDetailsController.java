@@ -3,6 +3,7 @@ package com.organicfoods.controller.web;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.organicfoods.constant.SystemConstant;
 import com.organicfoods.model.BillDetailsModel;
 import com.organicfoods.model.UserModel;
+import com.organicfoods.service.IBillDetailsService;
+import com.organicfoods.service.IProductService;
 import com.organicfoods.util.FormUtil;
 import com.organicfoods.util.SessionUtil;
 
@@ -19,33 +22,49 @@ import com.organicfoods.util.SessionUtil;
 public class BillDetailsController extends HttpServlet{
 
 	private static final long serialVersionUID = 5997180679319518024L;
-		
+	
+	@Inject
+	private IBillDetailsService billDetailsService;
+	
+	@Inject
+	private IProductService productService;
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String priceStr = req.getParameter("price");
 		UserModel user = (UserModel)SessionUtil.getInstance().getValue(req, SystemConstant.USERMODEL);
+		Double totalBill = (Double)SessionUtil.getInstance().getValue(req, SystemConstant.TOTALBILL);
+		
 		BillDetailsModel billDetail = FormUtil.mapValueToModel(BillDetailsModel.class, req);
 		billDetail.setCreatedBy(user.getUserName());
+		billDetail.setProduct(productService.findById(billDetail.getProductId()));
 		
 		HashMap<Long, BillDetailsModel> cart = (HashMap<Long, BillDetailsModel>)SessionUtil.getInstance().getValue(req, "CART");
 
-		if(cart == null) {
+		if(cart == null) {	
 			cart = new HashMap<Long, BillDetailsModel>();
 			billDetail.setTotalPrice(Double.parseDouble(priceStr));
+			billDetailsService.insertBillDetail(billDetail);
 			cart.put(billDetail.getProductId(), billDetail);
 			SessionUtil.getInstance().putValue(req, SystemConstant.CART, cart);
+			SessionUtil.getInstance().putValue(req, SystemConstant.TOTALBILL, billDetail.getTotalPrice());
 			resp.sendRedirect(req.getContextPath() + "/trang-chu?action=shop");
 		}
 		else {
 			if(cart.containsKey(billDetail.getProductId())) {
 				cart.get(billDetail.getProductId()).incrementQuantity();
-				cart.get(billDetail.getProductId()).setTotalPrice(Double.parseDouble(priceStr));
-				System.out.println(cart.get(billDetail.getProductId()).getTotalPrice());
+				cart.get(billDetail.getProductId()).updateTotalPrice(Double.parseDouble(priceStr));
+				cart.get(billDetail.getProductId()).setModifiedBy(user.getUserName());
+				billDetailsService.updateByProductIdAndCreatedBy(cart.get(billDetail.getProductId()), 
+									billDetail.getProductId(), user.getUserName());
+				SessionUtil.getInstance().putValue(req, SystemConstant.TOTALBILL, totalBill + Double.parseDouble(priceStr));
 			}
 			else {
 				billDetail.setTotalPrice(Double.parseDouble(priceStr));
+				billDetailsService.insertBillDetail(billDetail);
 				cart.put(billDetail.getProductId(), billDetail);
+				SessionUtil.getInstance().putValue(req, SystemConstant.TOTALBILL, totalBill + billDetail.getTotalPrice());
 			}
 			SessionUtil.getInstance().putValue(req, SystemConstant.CART, cart);
 			resp.sendRedirect(req.getContextPath() + "/trang-chu?action=shop");

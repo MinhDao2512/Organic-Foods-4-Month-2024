@@ -41,7 +41,7 @@ public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO{
 
 	@Override
 	public UserModel findById(Long id) {
-		String sql = "SELECT * FROM user WHERE id=?";
+		String sql = "SELECT * FROM user AS u INNER JOIN role AS r ON u.roleid=r.id WHERE u.id=?";
 		List<UserModel> results = query(sql, new UserMapper(), id);
 		return results.isEmpty() ? null : results.get(0);
 	}
@@ -75,6 +75,22 @@ public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO{
 		StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM user ");
 		sql.append("WHERE username LIKE '%" + keyword + "%'");
 		return count(sql.toString());
+	}
+
+	@Override
+	public Boolean updateUserModel(UserModel userModel) {
+		StringBuilder sql = new StringBuilder("UPDATE user ");
+		sql.append("SET fullname=?, username=?, email=?, phone=?, address=?, roleid=?, modifiedby=?, modifieddate=? ");
+		sql.append("WHERE id=?");
+		return updateOrDelete(sql.toString(), userModel.getFullName(), userModel.getUserName(), userModel.getEmail(), 
+								userModel.getPhone(), userModel.getAddress(), userModel.getRoleId(), userModel.getModifiedBy(), 
+								userModel.getModifiedDate(), userModel.getId());
+	}
+
+	@Override
+	public Boolean deleteUserModel(Long id) {
+		String sql = "DELETE FROM user WHERE id=?";
+		return updateOrDelete(sql, id);
 	}
 
 }

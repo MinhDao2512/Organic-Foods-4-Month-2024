@@ -29,6 +29,7 @@
 
     <!-- Template Stylesheet -->
     <link href="<c:url value = '/template/web/css/style.css'/>" rel="stylesheet">
+    <link href="<c:url value = '/template/web/css/style_img.css'/>" rel="stylesheet">
     
 </head>
 <body>

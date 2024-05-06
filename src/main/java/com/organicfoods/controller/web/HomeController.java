@@ -1,6 +1,8 @@
 package com.organicfoods.controller.web;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.inject.Inject;
@@ -12,8 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.organicfoods.constant.SystemConstant;
+import com.organicfoods.model.BillDetailsModel;
 import com.organicfoods.model.ProductModel;
 import com.organicfoods.model.UserModel;
+import com.organicfoods.service.IBillDetailsService;
 import com.organicfoods.service.IProductService;
 import com.organicfoods.service.IUserService;
 import com.organicfoods.util.FormUtil;
@@ -29,6 +33,9 @@ public class HomeController extends HttpServlet{
 	
 	@Inject
 	private IUserService userService;
+	
+	@Inject
+	private IBillDetailsService billDetailsService;
 	
 	ResourceBundle resourceBundle = ResourceBundle.getBundle("message");
 	
@@ -109,6 +116,21 @@ public class HomeController extends HttpServlet{
 			user = userService.findByUsernameAndPasswordAndStatus(user.getUserName(), user.getPassWord(), 1);
 			if(user != null) {
 				SessionUtil.getInstance().putValue(req, SystemConstant.USERMODEL, user);
+				HashMap<Long, BillDetailsModel> cart = new HashMap<Long, BillDetailsModel>();
+ 				
+				List<BillDetailsModel> results = billDetailsService.findByCreatedBy(user.getUserName());
+				if(results != null) {
+					Double totalBill = 0D;
+					Double shipping = 35000D;
+					for(BillDetailsModel item : results) {
+						item.setProduct(productService.findById(item.getProductId()));
+						totalBill += item.getTotalPrice();
+						cart.put(item.getProductId(), item);
+					}
+					SessionUtil.getInstance().putValue(req, SystemConstant.CART, cart);
+					SessionUtil.getInstance().putValue(req, SystemConstant.TOTALBILL, totalBill);
+					SessionUtil.getInstance().putValue(req, SystemConstant.SHIPPNG, shipping);
+				}
 				
 				if(user.getRoleCode().equals(SystemConstant.USER)) {
 					resp.sendRedirect(req.getContextPath() + "/trang-chu");

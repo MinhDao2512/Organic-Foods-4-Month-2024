@@ -10,16 +10,17 @@
         </button>
         <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
             <div class="navbar-nav mx-auto">
-                <a href="<c:url value = '/trang-chu'/>" class="nav-item nav-link active">Home</a>
-                <a href="<c:url value = '/trang-chu?action=shop'/>" class="nav-item nav-link">Shop</a>
+                <a href="<c:url value = '/trang-chu'/>" class="nav-item nav-link">Trang chủ</a>
+                <a href="<c:url value = '/trang-chu?action=shop'/>" class="nav-item nav-link">Sản phẩm</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Dịch vụ</a>
                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                        <a href="<c:url value = '/trang-chu?action=pages_checkout'/>" class="dropdown-item">Checkout</a>
+                    	<a href="<c:url value = '/trang-chu?action=pages_cart'/>"	 class="dropdown-item">Giỏ hàng</a>
+                        <a href="<c:url value = '/trang-chu?action=pages_checkout'/>" class="dropdown-item">Thanh toán</a>
+                        <a href="<c:url value = '/trang-chu?action=pages_testimonial'/>" class="dropdown-item">Phản hồi từ khách hàng</a>
                     </div>
                 </div>
-                <a href="<c:url value = '/trang-chu?action=pages_testimonial'/>" class="nav-item nav-link">Testimonial</a>
-                <a href="<c:url value = '/trang-chu?action=contact'/>" class="nav-item nav-link">Contact</a>
+                <a href="<c:url value = '/trang-chu?action=contact'/>" class="nav-item nav-link">Liên hệ</a>
             </div>
             <div class="d-flex m-3 me-0">
                 <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
@@ -68,7 +69,7 @@
                 </c:if>
                 <c:if test="${empty USERMODEL}">
 	                <a href="<c:url value = '/dang-nhap?action=login'/>" class="my-auto">
-	                    <i class="fas fa-user fa-2x"></i>  Login/Sign Up
+	                    <i class="fas fa-user fa-2x"></i>  Đăng Nhập/Đăng Ký
 	                </a>
                 </c:if>
             </div>

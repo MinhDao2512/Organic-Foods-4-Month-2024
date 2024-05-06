@@ -4,11 +4,11 @@
 <!DOCTYPE html>
 <!-- Single Page Header start -->
 <div class="container-fluid page-header py-5">
-    <h1 class="text-center text-white display-6">Checkout</h1>
+    <h1 class="text-center text-white display-6">Thanh toán</h1>
     <ol class="breadcrumb justify-content-center mb-0">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Pages</a></li>
-        <li class="breadcrumb-item active text-white">Checkout</li>
+        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+        <li class="breadcrumb-item"><a href="#">Dịch vụ</a></li>
+        <li class="breadcrumb-item active text-white">Thanh toán</li>
     </ol>
 </div>
 <!-- Single Page Header End -->
@@ -16,63 +16,25 @@
 <!-- Checkout Page Start -->
 <div class="container-fluid py-5">
     <div class="container py-5">
-        <h1 class="mb-4">Billing details</h1>
+        <h1 class="mb-4">Đơn hàng</h1>
         <form action="#">
             <div class="row g-5">
                 <div class="col-md-12 col-lg-6 col-xl-7">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-6">
-                            <div class="form-item w-100">
-                                <label class="form-label my-3">First Name<sup>*</sup></label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-12 col-lg-6">
-                            <div class="form-item w-100">
-                                <label class="form-label my-3">Last Name<sup>*</sup></label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Họ và tên<sup>*</sup></label>
+                        <input type="text" class="form-control" placeholder="Họ và tên">
                     </div>
                     <div class="form-item">
-                        <label class="form-label my-3">Company Name<sup>*</sup></label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Address <sup>*</sup></label>
-                        <input type="text" class="form-control" placeholder="House Number Street Name">
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Town/City<sup>*</sup></label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Country<sup>*</sup></label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Postcode/Zip<sup>*</sup></label>
-                        <input type="text" class="form-control">
+                        <label class="form-label my-3">Địa chỉ nhận hàng <sup>*</sup></label>
+                        <input type="text" class="form-control" placeholder="Địa chỉ người nhận">
                     </div>
                     <div class="form-item">
                         <label class="form-label my-3">Mobile<sup>*</sup></label>
-                        <input type="tel" class="form-control">
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Email Address<sup>*</sup></label>
-                        <input type="email" class="form-control">
-                    </div>
-                    <div class="form-check my-3">
-                        <input type="checkbox" class="form-check-input" id="Account-1" name="Accounts" value="Accounts">
-                        <label class="form-check-label" for="Account-1">Create an account?</label>
+                        <input type="tel" class="form-control" placeholder="Số điện thoại">
                     </div>
                     <hr>
-                    <div class="form-check my-3">
-                        <input class="form-check-input" type="checkbox" id="Address-1" name="Address" value="Address">
-                        <label class="form-check-label" for="Address-1">Ship to a different address?</label>
-                    </div>
                     <div class="form-item">
-                        <textarea name="text" class="form-control" spellcheck="false" cols="30" rows="11" placeholder="Oreder Notes (Optional)"></textarea>
+                        <textarea name="text" class="form-control" spellcheck="false" cols="30" rows="11" placeholder="Lưu ý đơn hàng"></textarea>
                     </div>
                 </div>
                 <div class="col-md-12 col-lg-6 col-xl-5">
@@ -80,93 +42,52 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Products</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Total</th>
+                                    <th scope="col">Sản phẩm</th>
+                                    <th scope="col">Tên</th>
+                                    <th scope="col">Giá</th>
+                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">Tổng</th>
                                 </tr>
                             </thead>
                             <tbody>
+                            	<c:forEach var="entry" items="${CART}">
                                 <tr>
                                     <th scope="row">
                                         <div class="d-flex align-items-center mt-2">
-                                            <img src="<c:url value = '/template/web/img/vegetable-item-2.jpg'/>" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
+                                            <img src="${entry.value.product.thumbnail}" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
                                         </div>
                                     </th>
-                                    <td class="py-5">Awesome Brocoli</td>
-                                    <td class="py-5">$69.00</td>
-                                    <td class="py-5">2</td>
-                                    <td class="py-5">$138.00</td>
+                                    <td class="py-5">${entry.value.product.title}</td>
+                                    <td class="py-5">${entry.value.product.price}</td>
+                                    <td class="py-5">${entry.value.quantity}</td>
+                                    <td class="py-5">${entry.value.totalPrice}</td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">
-                                        <div class="d-flex align-items-center mt-2">
-                                            <img src="<c:url value = '/template/web/img/vegetable-item-5.jpg'/>" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
-                                        </div>
-                                    </th>
-                                    <td class="py-5">Potatoes</td>
-                                    <td class="py-5">$69.00</td>
-                                    <td class="py-5">2</td>
-                                    <td class="py-5">$138.00</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        <div class="d-flex align-items-center mt-2">
-                                            <img src="<c:url value = '/template/web/img/vegetable-item-3.png'/>" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
-                                        </div>
-                                    </th>
-                                    <td class="py-5">Big Banana</td>
-                                    <td class="py-5">$69.00</td>
-                                    <td class="py-5">2</td>
-                                    <td class="py-5">$138.00</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                    </th>
-                                    <td class="py-5"></td>
-                                    <td class="py-5"></td>
-                                    <td class="py-5">
-                                        <p class="mb-0 text-dark py-3">Subtotal</p>
-                                    </td>
-                                    <td class="py-5">
-                                        <div class="py-3 border-bottom border-top">
-                                            <p class="mb-0 text-dark">$414.00</p>
-                                        </div>
-                                    </td>
-                                </tr>
+                                </c:forEach>
                                 <tr>
                                     <th scope="row">
                                     </th>
                                     <td class="py-5">
-                                        <p class="mb-0 text-dark py-4">Shipping</p>
-                                    </td>
-                                    <td colspan="3" class="py-5">
-                                        <div class="form-check text-start">
-                                            <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-1" name="Shipping-1" value="Shipping">
-                                            <label class="form-check-label" for="Shipping-1">Free Shipping</label>
-                                        </div>
-                                        <div class="form-check text-start">
-                                            <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-2" name="Shipping-1" value="Shipping">
-                                            <label class="form-check-label" for="Shipping-2">Flat rate: $15.00</label>
-                                        </div>
-                                        <div class="form-check text-start">
-                                            <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-3" name="Shipping-1" value="Shipping">
-                                            <label class="form-check-label" for="Shipping-3">Local Pickup: $8.00</label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                    </th>
-                                    <td class="py-5">
-                                        <p class="mb-0 text-dark text-uppercase py-3">TOTAL</p>
+                                        <p class="mb-0 text-dark py-3">Phí giao hàng</p>
                                     </td>
                                     <td class="py-5"></td>
                                     <td class="py-5"></td>
                                     <td class="py-5">
                                         <div class="py-3 border-bottom border-top">
-                                            <p class="mb-0 text-dark">$135.00</p>
+                                            <p class="mb-0 text-dark">${SHIPPING}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                    </th>
+                                    <td class="py-5">
+                                        <p class="mb-0 text-dark text-uppercase py-3">TỔNG</p>
+                                    </td>
+                                    <td class="py-5"></td>
+                                    <td class="py-5"></td>
+                                    <td class="py-5">
+                                        <div class="py-3 border-bottom border-top">
+                                            <p class="mb-0 text-dark">${TOTALBILL + SHIPPING}</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -176,38 +97,22 @@
                     <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                         <div class="col-12">
                             <div class="form-check text-start my-3">
-                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Transfer-1" name="Transfer" value="Transfer">
-                                <label class="form-check-label" for="Transfer-1">Direct Bank Transfer</label>
+                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Transfer-1" name="Transfer" value="Transfer" >
+                                <label class="form-check-label" for="Transfer-1">Thanh toán trước khi nhận hàng</label>
                             </div>
-                            <p class="text-start text-dark">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
-                        </div>
-                    </div>
-                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                        <div class="col-12">
-                            <div class="form-check text-start my-3">
-                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Payments-1" name="Payments" value="Payments">
-                                <label class="form-check-label" for="Payments-1">Check Payments</label>
-                            </div>
+                            <p class="text-start text-dark">Thực hiện thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui lòng sử dụng ID đơn hàng của bạn làm tài liệu tham khảo thanh toán.</p>
                         </div>
                     </div>
                     <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                         <div class="col-12">
                             <div class="form-check text-start my-3">
                                 <input type="checkbox" class="form-check-input bg-primary border-0" id="Delivery-1" name="Delivery" value="Delivery">
-                                <label class="form-check-label" for="Delivery-1">Cash On Delivery</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                        <div class="col-12">
-                            <div class="form-check text-start my-3">
-                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Paypal-1" name="Paypal" value="Paypal">
-                                <label class="form-check-label" for="Paypal-1">Paypal</label>
+                                <label class="form-check-label" for="Delivery-1">Thanh toán khi nhận hàng</label>
                             </div>
                         </div>
                     </div>
                     <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                        <button type="button" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place Order</button>
+                        <button type="button" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Đặt hàng</button>
                     </div>
                 </div>
             </div>

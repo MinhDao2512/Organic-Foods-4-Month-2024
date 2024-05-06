@@ -19,10 +19,10 @@ public class RoleMapper implements RowMapper<RoleModel>{
 			role.setModifiedDate(resultSet.getTimestamp("modifieddate"));
 			role.setCreatedBy(resultSet.getString("createdby"));
 			role.setModifiedBy(resultSet.getString("modifiedby"));
+			return role;
 		} catch (SQLException e) {
 			return null;
 		}
-		return null;
 	}
 
 }

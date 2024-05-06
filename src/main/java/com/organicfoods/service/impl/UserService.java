@@ -53,5 +53,15 @@ public class UserService implements IUserService{
 	public Integer countUsersByUsername(String keyword) {
 		return userDAO.countUsersByUsername(keyword);
 	}
+
+	@Override
+	public Boolean updateUserModel(UserModel userModel) {
+		return userDAO.updateUserModel(userModel);
+	}
+
+	@Override
+	public Boolean deleteUserModel(Long id) {
+		return userDAO.deleteUserModel(id);
+	}
 	
 }

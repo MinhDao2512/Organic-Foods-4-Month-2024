@@ -1,5 +1,10 @@
 package com.organicfoods.service;
 
-public interface IRoleService {
+import java.util.List;
 
+import com.organicfoods.model.RoleModel;
+
+public interface IRoleService {
+	List<RoleModel> findAll();
+	RoleModel findByCode(String code);
 }

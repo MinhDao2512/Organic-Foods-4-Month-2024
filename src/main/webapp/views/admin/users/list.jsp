@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@include file = "/common/taglib.jsp" %>
 
-<c:url var="URLpattern" value="/admin-user"></c:url>
+<c:url var="URLpattern" value="/admin-user"/>
+<c:url var="APIurl" value="/api-admin-user" />
 
 <style>
 	.left{
@@ -51,13 +52,13 @@
 	                <thead>
 	                    <tr>
 	                    	<th><input type="checkbox" id="selectAll" name="selectAll" title="selectAll"/></th>
-	                    	<th>Id</th>
 	                        <th>Full name</th>
 	                        <th>User name</th>
 	                        <th>Email</th>
 	                        <th>Phone</th>
 	                        <th>Address</th>
 	                        <th>Role</th>
+	                        <th>Created by</th>
 	                        <th>Edit</th>
 	                    </tr>
 	                </thead>
@@ -75,28 +76,29 @@
 							<div class="right">
 								Search:
 								<input class="radius_e" type="search" name="search" id="search"/>
-								<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
-							   		title="Xóa tài khoản"><i class="fas fa-trash-alt"></i>
-								</a>
-								<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
-							   		title="Thêm tài khoản"><i class="fa fa-plus" aria-hidden="true"></i>
-								</a>
+								<button id="btnDelete" type="button" class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip" title='Xóa tài khoản'>
+									<span><i class="fas fa-trash-alt"></i></span>
+								</button>
 							</div>	  
 	                	</tr> 
 	                	</br> 
 	                	</br>     
 	                	<c:forEach var="item" items="${model.listResults}">
 	                    <tr>
-	                    	<td><input type="checkbox" id="select" name="select" title="select"/></td>
-	                    	<td>${item.id}</td>
+	                    	<td><input type="checkbox" id="select" name="select" title="select" value="${item.id}"/></td>
 	                        <td>${item.fullName}</td>
 	                        <td>${item.userName}</td>
 	                        <td>${item.email}</td>
 	                        <td>${item.phone}</td>
 	                        <td>${item.address}</td>
 	                        <td>${item.roleCode}</td>
+	                        <td>${item.createdBy}</td>
 	                        <td>
-	                        	<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
+	                        	<c:url var="editURL" value="/admin-user">
+	                        		<c:param name="type" value="edit"/>
+	                        		<c:param name="id" value="${item.id}"></c:param>
+	                        	</c:url>
+	                        	<a href="${editURL}" class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
 							   		title="Cập nhật tài khoản"><i class="fas fa-edit"></i>
 								</a>
 	                        </td>
@@ -197,7 +199,30 @@ $(function() {
         }
     });
 
-    
+    $('#btnDelete').click(function(){
+		var data = {};
+		var ids = $('tbody input[type=checkbox]:checked').map(function(){
+			return $(this).val();
+		}).get();
+		data['ids'] = ids;
+		deleteUser(data);
+	});
+
+    function deleteUser(data){
+		$.ajax({
+			url: '${APIurl}',
+			type: 'DELETE',
+			contentType: 'application/json',
+			data: JSON.stringify(data),
+			dataType: 'json',
+			success: function(result){
+				window.location.href = "${URLpattern}?page=1&itemsPerPage=5&sortName=fullname&sortBy=asc&type=list_users";
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+    }
     // Khởi tạo thư viện twbsPagination khi trang được tải lần đầu tiên
     initializePagination(${model.totalPages},${model.page});
 

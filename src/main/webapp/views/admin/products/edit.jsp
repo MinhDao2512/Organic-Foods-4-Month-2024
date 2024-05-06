@@ -15,11 +15,11 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<label class="col-sm-2 col-form-label">Thể loại</label>
+			<label class="col-sm-2 col-form-label">Category</label>
 			<div class="col-sm-10">
 				<c:if test="${empty model.categoryCode}">
 					<select class="form-control" id="categoryCode" name="categoryCode">
-						<option value="">Chọn thể loại sản phẩm</option>
+						<option value="">Select category</option>
 						<c:forEach var="item" items="${categories}">
 							<option value="${item.code}">${item.name}</option>
 						</c:forEach>
