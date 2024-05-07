@@ -33,9 +33,12 @@ public class UserAPI extends HttpServlet{
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json");
 		UserModel user = HttpUtil.toStrJSON(req.getReader()).toModel(UserModel.class);
-		
-		Long id = userService.insertUserModel(user);
-		user = userService.findById(id);
+		UserModel checkUser = userService.findByUsernameAndPasswordAndStatus(user.getUserName(), user.getPassWord(), 1);
+		if(checkUser == null) {
+			user.setRoleId(roleService.findByCode(user.getRoleCode()).getId());
+			Long id = userService.insertUserModel(user);
+			user = userService.findById(id);
+		}
 		HttpUtil.toJSON(resp.getOutputStream(), user);
 	}
 	

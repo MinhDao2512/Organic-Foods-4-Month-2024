@@ -79,6 +79,12 @@
 								<button id="btnDelete" type="button" class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip" title='Xóa tài khoản'>
 									<span><i class="fas fa-trash-alt"></i></span>
 								</button>
+								<c:url var="editURL" value="/admin-user">
+	                        		<c:param name="type" value="edit"/>
+	                        	</c:url>
+								<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
+							   		title="Thêm tài khoản" href="${editURL}"><i class="fa fa-plus" aria-hidden="true"></i>
+								</a>
 							</div>	  
 	                	</tr> 
 	                	</br> 

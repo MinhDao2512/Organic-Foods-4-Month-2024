@@ -29,13 +29,15 @@ public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO{
 	@Override
 	public Long insertUserModel(UserModel userModel) {
 		userModel.setStatus(1);
-		userModel.setRoleId(2L);
+		if(userModel.getRoleId() == null) {
+			userModel.setRoleId(2L);
+		}
 		userModel.setCreatedDate(new Timestamp(System.currentTimeMillis()));
 		userModel.setCreatedBy(userModel.getUserName());
-		StringBuilder  sql = new StringBuilder("INSERT INTO user(fullname,username,password,email,phone,status,roleid,createdDate,createdBy) ");
-		sql.append("VALUES(?,?,?,?,?,?,?,?,?)");
+		StringBuilder  sql = new StringBuilder("INSERT INTO user(fullname,username,password,email,phone,address,status,roleid,createdDate,createdBy) ");
+		sql.append("VALUES(?,?,?,?,?,?,?,?,?,?)");
 		return insert(sql.toString(), userModel.getFullName(), userModel.getUserName(), userModel.getPassWord(), userModel.getEmail(),
-						userModel.getPhone(), userModel.getStatus(), userModel.getRoleId(), userModel.getCreatedDate(), 
+						userModel.getPhone(), userModel.getAddress(), userModel.getStatus(), userModel.getRoleId(), userModel.getCreatedDate(), 
 						userModel.getCreatedBy());
 	}
 

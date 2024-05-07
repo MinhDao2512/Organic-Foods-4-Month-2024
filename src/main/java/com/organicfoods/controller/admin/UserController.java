@@ -53,7 +53,12 @@ public class UserController extends HttpServlet{
 				req.setAttribute(SystemConstant.ALERT, model.getAlert());
 				req.setAttribute(SystemConstant.MESSAGE, bundle.getString(model.getMessage()));
 			}
-			model = userService.findById(model.getId());
+			if(model.getId() != null) {
+				model = userService.findById(model.getId());
+			}
+			else {
+				
+			}
 			req.setAttribute("roles", roleService.findAll());
 			view = "/views/admin/users/edit.jsp";
 		}

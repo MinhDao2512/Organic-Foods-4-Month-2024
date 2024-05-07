@@ -6,12 +6,12 @@
 
 <div class="container">
 	<div class="signup-content">
-		<c:if test="${not empty alert}">
-			<div class="alert alert-${alert}" role="alert">
-				<span>${message}</span>
-			</div>
-		</c:if>
 		<div class="signup-form">
+			<c:if test="${not empty alert}">
+				<div class="alert alert-${alert}" role="alert">
+					<span>${message}</span>
+				</div>
+			</c:if>
 			<h2 class="form-title">Sign up</h2>
 			
 			<form id="formRegister">
@@ -37,6 +37,11 @@
 					<label for="phone"><i class="zmdi zmdi-phone-in-talk"></i></label>
 					<input type="text" name="phone" id="phone"
 						placeholder="Phone" />
+				</div>
+				<div class="form-group">
+					<label for="address"><i class="zmdi zmdi-pin"></i></label>
+					<input type="text" name="address" id="address"
+						placeholder="Address" />
 				</div>
 				<div class="form-group form-button">
 					<input type = "button" class = "form-submit" value = "Register" id = "btnRegister"/>
@@ -72,10 +77,10 @@
 			success: function(result){
 				console.log(result);
 				if(result.status == 1){
-					window.location.href = "<c:url value='/dang-nhap?action=login&alert=success&message=message_success'/>";
+					window.location.href = "<c:url value='/dang-nhap?action=login&alert=success&message=message_success_register'/>";
 				}
 				else{
-					window.location.href = "<c:url value='/dang-ky?action=register&alert=danger&message=message_danger'/>";
+					window.location.href = "<c:url value='/dang-ky?action=register&alert=danger&message=message_exist'/>";
 				}
 			},
 			error: function(error){

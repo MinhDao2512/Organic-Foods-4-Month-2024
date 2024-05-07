@@ -138,7 +138,7 @@
 			success : function(result) {
 				console.log(result);
 				if(result.id !== null){
-					window.location.href = "${URLpattern}?type=edit&id=${model.id}&alert=success&message=message_success";
+					window.location.href = "${URLpattern}?type=edit&id=${model.id}&alert=success&message=success_update_product";
 				}
 				else {
 					window.location.href = "${URLpattern}?type=edit&id=${model.id}&alert=danger&message=message_danger";
@@ -160,7 +160,7 @@
 			success : function(result) {
 				console.log(result);
 				if(result.id !== null){
-					window.location.href = "${URLpattern}?type=edit&alert=success&message=message_success";
+					window.location.href = "${URLpattern}?type=edit&alert=success&message=success_add_product";
 				}
 				else {
 					window.location.href = "${URLpattern}?type=edit&alert=danger&message=message_danger";
