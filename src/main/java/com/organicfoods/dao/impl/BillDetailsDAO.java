@@ -35,4 +35,16 @@ public class BillDetailsDAO extends AbstractDAO<BillDetailsModel> implements IBi
 		return query(sql, new BillDetailsMapper(), createdBy);
 	}
 
+	@Override
+	public List<BillDetailsModel> findByProductId(Long productId) {
+		String sql = "SELECT * from billdetails WHERE productid = ?";
+		return query(sql, new BillDetailsMapper(), productId);
+	}
+
+	@Override
+	public Boolean deleteBillDetails(Long id) {
+		String sql = "DELETE FROM billdetails WHERE id=?";
+		return updateOrDelete(sql, id);
+	}
+
 }

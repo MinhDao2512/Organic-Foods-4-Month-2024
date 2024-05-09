@@ -58,8 +58,7 @@
 	                        <th>Price</th>
 	                        <th>Category code</th>
 	                        <th>Quantity</th>
-	                        <th>Created by</th>
-	                        <th>Modified by</th>
+	                        <th>Shop</th>
 	                        <th>Edit</th>
 	                    </tr>
 	                </thead>
@@ -101,7 +100,6 @@
 	                        <td>${item.categoryCode}</td>
 	                        <td>${item.quantity} kg</td>
 	                        <td>${item.createdBy}</td>
-	                        <td>${item.modifiedBy}</td>
 	                        <td>
 	                        	<c:url var="editURL" value="/admin-products">
 	                        		<c:param name="type" value="edit"/>

@@ -25,11 +25,11 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">	        
 	    <div class="card-header py-3">
-	        <h6 class="right">Users Table</h6>
+	        <h6 class="right">Users table</h6>
 	        
 	        <form action="<c:url value='/admin-user?'/>" method = "GET" class="row align-items-center" id="formSearch">
 				<div class="col-auto">
-					<input type="text" value="${model.keyword}" name="keyword" id="keyword" class="form-control" placeholder="Enter code"/>
+					<input type="text" value="${model.keyword}" name="keyword" id="keyword" class="form-control" placeholder="Enter username"/>
 			        <input type="hidden" id="page" name="page" value=""/>
 			        <input type="hidden" id="itemsPerPage" name="itemsPerPage" value=""/>
 			        <input type="hidden" id="sortName" name="sortName" value=""/>

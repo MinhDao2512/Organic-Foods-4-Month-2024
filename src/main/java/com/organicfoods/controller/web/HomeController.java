@@ -39,6 +39,7 @@ public class HomeController extends HttpServlet{
 	
 	ResourceBundle resourceBundle = ResourceBundle.getBundle("message");
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		UserModel user = FormUtil.mapValueToModel(UserModel.class, req);
@@ -100,6 +101,19 @@ public class HomeController extends HttpServlet{
 			resp.sendRedirect(req.getContextPath() + "/trang-chu");
 		}
 		else {
+			UserModel userModel = (UserModel)SessionUtil.getInstance().getValue(req, SystemConstant.USERMODEL);
+			HashMap<Long, BillDetailsModel> cartNew = new HashMap<Long, BillDetailsModel>();
+			HashMap<Long, BillDetailsModel> cartOld = (HashMap<Long, BillDetailsModel>)SessionUtil.getInstance().getValue(req, SystemConstant.CART);
+			if(userModel != null && cartNew.size() != cartOld.size()) {
+				Double totalBill = 0D;
+				for(BillDetailsModel item : billDetailsService.findByCreatedBy(userModel.getUserName())) {
+					item.setProduct(productService.findById(item.getProductId()));
+					totalBill += item.getTotalPrice();
+					cartNew.put(item.getProductId(), item);
+				}
+				SessionUtil.getInstance().putValue(req, SystemConstant.CART, cartNew);
+				SessionUtil.getInstance().putValue(req, SystemConstant.TOTALBILL, totalBill);
+			}
 			view = "/views/web/home.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(view);
 			rd.forward(req, resp);
@@ -140,7 +154,7 @@ public class HomeController extends HttpServlet{
 				}
 			}
 			else {
-				resp.sendRedirect(req.getContextPath() + "/dang-nhap?action=login&alert=danger&message=message_success");
+				resp.sendRedirect(req.getContextPath() + "/dang-nhap?action=login&alert=danger&message=message_login_fail");
 			}
 		}
 	}

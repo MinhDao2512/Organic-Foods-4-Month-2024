@@ -140,7 +140,7 @@
                                     <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                     <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                         <h4>${item.title}</h4>
-                                        <p>${item.content}</p>
+                                        <p>Shop: ${item.createdBy}</p>
                                         <div class="d-flex justify-content-between flex-lg-wrap">
                                             <p class="text-dark fs-5 fw-bold mb-0">${item.price}/kg</p>
                                             <c:if test="${not empty USERMODEL}">

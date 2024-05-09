@@ -8,4 +8,6 @@ public interface IBillDetailsDAO extends GenericDAO<BillDetailsModel>{
 	Long insertBillDetail(BillDetailsModel billDetail);
 	Boolean updateByProductIdAndCreatedBy(BillDetailsModel billDetail, Long productId, String createdBy);
 	List<BillDetailsModel> findByCreatedBy(String createdBy); 
+	List<BillDetailsModel> findByProductId(Long productId);
+	Boolean deleteBillDetails(Long id);
 }

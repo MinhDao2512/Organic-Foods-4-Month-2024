@@ -14,7 +14,6 @@ public class BillMapper implements RowMapper<BillModel>{
 		try {
 			bill.setId(resultSet.getLong("id"));
 			bill.setShippingAddress(resultSet.getString("shippingaddress"));
-			bill.setProductId(resultSet.getLong("productid"));
 			bill.setUserId(resultSet.getLong("userid"));
 			bill.setStatus(resultSet.getString("status"));
 			bill.setTotalPrice(resultSet.getDouble("totalprice"));
@@ -22,10 +21,10 @@ public class BillMapper implements RowMapper<BillModel>{
 			bill.setModifiedDate(resultSet.getTimestamp("modifieddate"));
 			bill.setCreatedBy(resultSet.getString("createdby"));
 			bill.setModifiedBy(resultSet.getString("modifiedby"));
+			return bill;
 		} catch (SQLException e) {
 			return null;
 		}
-		return null;
 	}
 
 }

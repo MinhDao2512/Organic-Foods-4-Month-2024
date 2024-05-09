@@ -163,7 +163,7 @@
 					window.location.href = "${URLpattern}?type=edit&alert=success&message=success_add_product";
 				}
 				else {
-					window.location.href = "${URLpattern}?type=edit&alert=danger&message=message_danger";
+					window.location.href = "${URLpattern}?type=edit&alert=danger&message=danger_add_product";
 				}
 			},
 			error : function(error) {

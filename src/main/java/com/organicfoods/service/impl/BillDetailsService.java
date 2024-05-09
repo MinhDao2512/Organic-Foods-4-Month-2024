@@ -28,4 +28,14 @@ public class BillDetailsService implements IBillDetailsService{
 		return billDetailsDAO.findByCreatedBy(createBy);
 	}
 
+	@Override
+	public List<BillDetailsModel> findByProductId(Long productId) {
+		return billDetailsDAO.findByProductId(productId);
+	}
+
+	@Override
+	public Boolean deleteBillDetails(Long id) {
+		return billDetailsDAO.deleteBillDetails(id);
+	}
+
 }

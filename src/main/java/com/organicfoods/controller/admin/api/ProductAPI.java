@@ -1,6 +1,7 @@
 package com.organicfoods.controller.admin.api;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -9,9 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.organicfoods.model.BillDetailsModel;
 import com.organicfoods.model.CategoryModel;
 import com.organicfoods.model.ProductModel;
 import com.organicfoods.model.UserModel;
+import com.organicfoods.service.IBillDetailsService;
 import com.organicfoods.service.ICategoryService;
 import com.organicfoods.service.IProductService;
 import com.organicfoods.util.HttpUtil;
@@ -28,6 +31,9 @@ public class ProductAPI extends HttpServlet{
 	@Inject
 	private ICategoryService categoryService;
 	
+	@Inject
+	private IBillDetailsService billDetailsService;
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
@@ -39,8 +45,12 @@ public class ProductAPI extends HttpServlet{
 		product.setCreatedBy(user.getUserName());
 		product.setCategoryId(category.getId());
 		
-		Long id = productService.insertProduct(product);
-		product = productService.findById(id);
+		Boolean checkCodeOfProduct = productService.findByCodeAndCreatedBy(product.getCode(), user.getUserName());
+		
+		if(!checkCodeOfProduct) {
+			Long id = productService.insertProduct(product);
+			product = productService.findById(id);
+		}
 		HttpUtil.toJSON(resp.getOutputStream(), product);
 	}
 	
@@ -66,9 +76,13 @@ public class ProductAPI extends HttpServlet{
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json");
 		ProductModel product = HttpUtil.toStrJSON(req.getReader()).toModel(ProductModel.class);
-		for(Long id : product.getIds()) {
-			productService.deleteProduct(id);
-			product = productService.findById(id);
+		for(Long productId : product.getIds()) {
+			List<BillDetailsModel> results = billDetailsService.findByProductId(productId);
+			for(BillDetailsModel item : results) {
+				billDetailsService.deleteBillDetails(item.getId());
+			}
+			productService.deleteProduct(productId);
+			product = productService.findById(productId);
 		}
 		HttpUtil.toJSON(resp.getOutputStream(), product);
 	}

@@ -68,6 +68,11 @@ public class ProductService implements IProductService{
 	public Integer countProductsByCreatedBy(String userName) {
 		return productDAO.countProductsByCreatedBy(userName);
 	}
+
+	@Override
+	public Boolean findByCodeAndCreatedBy(String code, String createdBy) {
+		return productDAO.findByCodeAndCreatedBy(code, createdBy);
+	}
 	
 	
 

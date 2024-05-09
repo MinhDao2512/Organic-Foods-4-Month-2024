@@ -8,4 +8,6 @@ public interface IBillDetailsService {
 	Long insertBillDetail(BillDetailsModel billDetail);
 	Boolean updateByProductIdAndCreatedBy(BillDetailsModel billDetail, Long productId, String createdBy);
 	List<BillDetailsModel> findByCreatedBy(String createBy); 
+	List<BillDetailsModel> findByProductId(Long productId);
+	Boolean deleteBillDetails(Long id);
 }

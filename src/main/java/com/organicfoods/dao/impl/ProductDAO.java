@@ -95,5 +95,12 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 		String sql = "SELECT COUNT(*) FROM product WHERE createdby = ?";
 		return count(sql, userName);
 	}
+
+	@Override
+	public Boolean findByCodeAndCreatedBy(String code, String createdBy) {
+		String sql = "SELECT * FROM product WHERE code=? AND createdby=?";
+		List<ProductModel> result = query(sql, new ProductMapper(), code, createdBy);
+		return result.isEmpty() ? false : true;
+	}
 	
 }

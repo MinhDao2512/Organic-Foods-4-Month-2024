@@ -17,4 +17,5 @@ public interface IProductService {
 	Integer countProductsByCode(String code);
 	List<ProductModel> findByCreatedBy(Pageble pageble, String userName);
 	Integer countProductsByCreatedBy(String userName);
+	Boolean findByCodeAndCreatedBy(String code, String createdBy);
 }
