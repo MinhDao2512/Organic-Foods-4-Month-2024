@@ -38,4 +38,14 @@ public class BillDetailsService implements IBillDetailsService{
 		return billDetailsDAO.deleteBillDetails(id);
 	}
 
+	@Override
+	public Boolean updateBillId(Long id, Long billId) {
+		return billDetailsDAO.updateBillId(id, billId);
+	}
+
+	@Override
+	public BillDetailsModel findById(Long id) {
+		return billDetailsDAO.findById(id);
+	}
+
 }

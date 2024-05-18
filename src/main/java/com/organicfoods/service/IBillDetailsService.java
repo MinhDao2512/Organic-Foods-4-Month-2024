@@ -10,4 +10,6 @@ public interface IBillDetailsService {
 	List<BillDetailsModel> findByCreatedBy(String createBy); 
 	List<BillDetailsModel> findByProductId(Long productId);
 	Boolean deleteBillDetails(Long id);
+	Boolean updateBillId(Long id, Long billId);
+	BillDetailsModel findById(Long id);
 }

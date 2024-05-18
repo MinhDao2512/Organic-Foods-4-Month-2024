@@ -73,6 +73,11 @@ public class ProductService implements IProductService{
 	public Boolean findByCodeAndCreatedBy(String code, String createdBy) {
 		return productDAO.findByCodeAndCreatedBy(code, createdBy);
 	}
+
+	@Override
+	public List<ProductModel> findBySeller(String userName) {
+		return productDAO.findBySeller(userName);
+	}
 	
 	
 

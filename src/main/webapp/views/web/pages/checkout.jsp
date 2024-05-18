@@ -17,20 +17,25 @@
 <div class="container-fluid py-5">
     <div class="container py-5">
         <h1 class="mb-4">Đơn hàng</h1>
-        <form action="#">
+        <c:if test="${not empty alert}">
+	    	<div class="alert alert-${alert}">
+			  <strong>${message}</strong>
+			</div>
+		</c:if>
+        <form action="<c:url value='/checkout'/>" method="POST">
             <div class="row g-5">
                 <div class="col-md-12 col-lg-6 col-xl-7">
                     <div class="form-item">
                         <label class="form-label my-3">Họ và tên<sup>*</sup></label>
-                        <input type="text" class="form-control" placeholder="Họ và tên">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Họ và tên" value="">
                     </div>
                     <div class="form-item">
                         <label class="form-label my-3">Địa chỉ nhận hàng <sup>*</sup></label>
-                        <input type="text" class="form-control" placeholder="Địa chỉ người nhận">
+                        <input type="text" class="form-control" id="shippingAddress" name="shippingAddress" placeholder="Địa chỉ người nhận" value="">
                     </div>
                     <div class="form-item">
-                        <label class="form-label my-3">Mobile<sup>*</sup></label>
-                        <input type="tel" class="form-control" placeholder="Số điện thoại">
+                        <label class="form-label my-3">Số điện thoại<sup>*</sup></label>
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại" value="">
                     </div>
                     <hr>
                     <div class="form-item">
@@ -97,7 +102,7 @@
                     <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                         <div class="col-12">
                             <div class="form-check text-start my-3">
-                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Transfer-1" name="Transfer" value="Transfer" >
+                                <input type="checkbox" class="form-check-input bg-primary border-0" id="status" name="status" value="Đã thanh toán" >
                                 <label class="form-check-label" for="Transfer-1">Thanh toán trước khi nhận hàng</label>
                             </div>
                             <p class="text-start text-dark">Thực hiện thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui lòng sử dụng ID đơn hàng của bạn làm tài liệu tham khảo thanh toán.</p>
@@ -106,16 +111,17 @@
                     <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                         <div class="col-12">
                             <div class="form-check text-start my-3">
-                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Delivery-1" name="Delivery" value="Delivery">
+                                <input type="checkbox" class="form-check-input bg-primary border-0" id="status" name="status" value="Thanh toán khi nhân hàng">
                                 <label class="form-check-label" for="Delivery-1">Thanh toán khi nhận hàng</label>
                             </div>
                         </div>
                     </div>
                     <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                        <button type="button" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Đặt hàng</button>
+                        <button type="submit" id="btnCheckout" name="btnCheckout" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Đặt hàng</button>
                     </div>
                 </div>
             </div>
+            <input type="hidden" id="totalPrice" name="totalPrice" value="${TOTALBILL + SHIPPING}">
         </form>
     </div>
 </div>

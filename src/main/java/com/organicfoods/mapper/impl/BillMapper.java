@@ -13,6 +13,8 @@ public class BillMapper implements RowMapper<BillModel>{
 		BillModel bill = new BillModel();
 		try {
 			bill.setId(resultSet.getLong("id"));
+			bill.setName(resultSet.getString("name"));
+			bill.setPhone(resultSet.getString("phone"));
 			bill.setShippingAddress(resultSet.getString("shippingaddress"));
 			bill.setUserId(resultSet.getLong("userid"));
 			bill.setStatus(resultSet.getString("status"));

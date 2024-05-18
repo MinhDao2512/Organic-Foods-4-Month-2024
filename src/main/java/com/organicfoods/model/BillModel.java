@@ -1,6 +1,8 @@
 package com.organicfoods.model;
 
 public class BillModel extends AbstractModel<BillModel>{
+	private String name;
+	private String phone;
 	private String shippingAddress;
 	private Long userId;
 	private String status;
@@ -29,6 +31,18 @@ public class BillModel extends AbstractModel<BillModel>{
 	}
 	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 }

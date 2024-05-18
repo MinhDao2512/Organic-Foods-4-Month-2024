@@ -37,15 +37,15 @@ public class BillDetailsController extends HttpServlet{
 		Double totalBill = (Double)SessionUtil.getInstance().getValue(req, SystemConstant.TOTALBILL);
 		
 		BillDetailsModel billDetail = FormUtil.mapValueToModel(BillDetailsModel.class, req);
-		billDetail.setCreatedBy(user.getUserName());
-		billDetail.setProduct(productService.findById(billDetail.getProductId()));
-		
+		billDetail.setCreatedBy(user.getUserName());	
 		HashMap<Long, BillDetailsModel> cart = (HashMap<Long, BillDetailsModel>)SessionUtil.getInstance().getValue(req, "CART");
 
 		if(cart == null) {	
 			cart = new HashMap<Long, BillDetailsModel>();
 			billDetail.setTotalPrice(Double.parseDouble(priceStr));
-			billDetailsService.insertBillDetail(billDetail);
+			Long id = billDetailsService.insertBillDetail(billDetail);
+			billDetail = billDetailsService.findById(id);
+			billDetail.setProduct(productService.findById(billDetail.getProductId()));
 			cart.put(billDetail.getProductId(), billDetail);
 			SessionUtil.getInstance().putValue(req, SystemConstant.CART, cart);
 			SessionUtil.getInstance().putValue(req, SystemConstant.TOTALBILL, billDetail.getTotalPrice());
@@ -62,7 +62,9 @@ public class BillDetailsController extends HttpServlet{
 			}
 			else {
 				billDetail.setTotalPrice(Double.parseDouble(priceStr));
-				billDetailsService.insertBillDetail(billDetail);
+				Long id = billDetailsService.insertBillDetail(billDetail);
+				billDetail = billDetailsService.findById(id);
+				billDetail.setProduct(productService.findById(billDetail.getProductId()));
 				cart.put(billDetail.getProductId(), billDetail);
 				SessionUtil.getInstance().putValue(req, SystemConstant.TOTALBILL, totalBill + billDetail.getTotalPrice());
 			}

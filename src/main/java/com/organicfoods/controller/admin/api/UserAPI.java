@@ -2,6 +2,7 @@ package com.organicfoods.controller.admin.api;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -11,7 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.organicfoods.constant.SystemConstant;
+import com.organicfoods.model.BillDetailsModel;
+import com.organicfoods.model.ProductModel;
 import com.organicfoods.model.UserModel;
+import com.organicfoods.service.IBillDetailsService;
+import com.organicfoods.service.IProductService;
 import com.organicfoods.service.IRoleService;
 import com.organicfoods.service.IUserService;
 import com.organicfoods.util.HttpUtil;
@@ -27,6 +32,12 @@ public class UserAPI extends HttpServlet{
 	
 	@Inject
 	private IRoleService roleService;
+	
+	@Inject
+	private IProductService productService;
+	
+	@Inject
+	private IBillDetailsService billDetailsService;
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -64,6 +75,15 @@ public class UserAPI extends HttpServlet{
 		resp.setContentType("application/json");
 		UserModel user = HttpUtil.toStrJSON(req.getReader()).toModel(UserModel.class);
 		for(Long id : user.getIds()) {
+			String userName = userService.findById(id).getUserName();
+			List<ProductModel> results = productService.findBySeller(userName);
+			for(ProductModel product : results) {
+				List<BillDetailsModel> list = billDetailsService.findByProductId(product.getId());
+				for(BillDetailsModel billDetail : list) {
+					billDetailsService.deleteBillDetails(billDetail.getId());
+				}
+				productService.deleteProduct(product.getId());
+			}
 			userService.deleteUserModel(id);
 		}
 		HttpUtil.toJSON(resp.getOutputStream(), null);

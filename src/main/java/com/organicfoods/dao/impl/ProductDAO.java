@@ -102,5 +102,12 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 		List<ProductModel> result = query(sql, new ProductMapper(), code, createdBy);
 		return result.isEmpty() ? false : true;
 	}
+
+	@Override
+	public List<ProductModel> findBySeller(String userName) {
+		String sql = "SELECT * FROM product AS p WHERE createdby=?";
+		List<ProductModel> result = query(sql, new ProductMapper(), userName);
+		return result.isEmpty() ? null : result;
+	}
 	
 }

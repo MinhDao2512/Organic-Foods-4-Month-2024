@@ -58,6 +58,10 @@ public class HomeController extends HttpServlet{
 			rd.forward(req, resp);
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.PAGES_CHECKOUT)) {
+			if(user.getAlert() != null && user.getMessage() != null) {
+				req.setAttribute(SystemConstant.ALERT, user.getAlert());
+				req.setAttribute(SystemConstant.MESSAGE, resourceBundle.getString(user.getMessage()));
+			}
 			view = "/views/web/pages/checkout.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(view);
 			rd.forward(req, resp);
@@ -97,6 +101,7 @@ public class HomeController extends HttpServlet{
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.LOGOUT)) {
 			SessionUtil.getInstance().removeValue(req, SystemConstant.USERMODEL);
+			SessionUtil.getInstance().removeValue(req, SystemConstant.TOTALBILL);
 			SessionUtil.getInstance().removeValue(req, SystemConstant.CART);
 			resp.sendRedirect(req.getContextPath() + "/trang-chu");
 		}
@@ -145,7 +150,6 @@ public class HomeController extends HttpServlet{
 					SessionUtil.getInstance().putValue(req, SystemConstant.TOTALBILL, totalBill);
 					SessionUtil.getInstance().putValue(req, SystemConstant.SHIPPNG, shipping);
 				}
-				
 				if(user.getRoleCode().equals(SystemConstant.USER)) {
 					resp.sendRedirect(req.getContextPath() + "/trang-chu");
 				}

@@ -31,7 +31,7 @@ public class BillDetailsDAO extends AbstractDAO<BillDetailsModel> implements IBi
 
 	@Override
 	public List<BillDetailsModel> findByCreatedBy(String createdBy) {
-		String sql = "SELECT * FROM billdetails WHERE createdby = ?";
+		String sql = "SELECT * FROM billdetails WHERE createdby = ? AND billid IS NULL";
 		return query(sql, new BillDetailsMapper(), createdBy);
 	}
 
@@ -45,6 +45,19 @@ public class BillDetailsDAO extends AbstractDAO<BillDetailsModel> implements IBi
 	public Boolean deleteBillDetails(Long id) {
 		String sql = "DELETE FROM billdetails WHERE id=?";
 		return updateOrDelete(sql, id);
+	}
+
+	@Override
+	public Boolean updateBillId(Long id, Long billId) {
+		String sql = "UPDATE billdetails SET billid=? WHERE id=?";
+		return updateOrDelete(sql, billId, id);
+	}
+
+	@Override
+	public BillDetailsModel findById(Long id) {
+		String sql = "SELECT * FROM billdetails WHERE id=?";
+		List<BillDetailsModel> result = query(sql,new BillDetailsMapper(), id);
+		return result.isEmpty() ? null : result.get(0);
 	}
 
 }
