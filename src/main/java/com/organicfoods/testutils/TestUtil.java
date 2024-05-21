@@ -1,14 +1,15 @@
 package com.organicfoods.testutils;
 
-import com.organicfoods.dao.impl.CategoryDAO;
-import com.organicfoods.model.CategoryModel;
+import com.organicfoods.util.EmailUtil;
 
 public class TestUtil {
 	public static void main(String[] args) {
-		CategoryModel category = new CategoryModel();
-		category.setCode("trai-cay");
-		category.setName("Trái cây");
-		CategoryDAO test = new CategoryDAO();
-		System.out.println(test.insertCategoryModel(category));
+		Boolean check = EmailUtil.getInstance().sendTo("n20dcvt009@student.ptithcm.edu.vn", "Thông báo đơn hàng", "Đăt hàng thành công");
+		if(check) {
+			System.out.println("Thanh Cong!");
+		}
+		else {
+			System.out.println("That Bai!");
+		}
 	}
 }

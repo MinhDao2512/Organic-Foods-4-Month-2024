@@ -15,10 +15,10 @@
 		<mysql.connector.java.version>8.0.28</mysql.connector.java.version>
 		<weld.servlet.version>1.1.0.Final</weld.servlet.version>
 		<!--Start Email Version-->
-		<mail.api.version>1.6.2</mail.api.version>
+		<mail.version>1.6.2</mail.version>
 		<activation.version>1.2.0</activation.version>
 		<!--End Email Version-->
-		
+
 		<!--Version Jackson-->
 		<jackson.core.version>2.6.3</jackson.core.version>
 		<jackson.databind.version>2.6.3</jackson.databind.version>
@@ -132,9 +132,9 @@
 		<!--Start Email-->
 		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
 		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>javax.mail-api</artifactId>
-			<version>${mail.api.version}</version>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>${mail.version}</version>
 		</dependency>
 		<!--
 		https://mvnrepository.com/artifact/com.sun.activation/javax.activation -->

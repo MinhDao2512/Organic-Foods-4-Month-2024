@@ -16,6 +16,7 @@ import com.organicfoods.model.BillModel;
 import com.organicfoods.model.UserModel;
 import com.organicfoods.service.IBillDetailsService;
 import com.organicfoods.service.IBillService;
+import com.organicfoods.util.EmailUtil;
 import com.organicfoods.util.FormUtil;
 import com.organicfoods.util.SessionUtil;
 
@@ -35,7 +36,6 @@ public class BillController extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		BillModel bill = FormUtil.mapValueToModel(BillModel.class, req);
-		System.out.println(bill.getPhone());
 		UserModel user = (UserModel)SessionUtil.getInstance().getValue(req, SystemConstant.USERMODEL);
 		HashMap<Long,BillDetailsModel> cart = (HashMap<Long, BillDetailsModel>)SessionUtil.getInstance().getValue(req, SystemConstant.CART);
 		bill.setUserId(user.getId());
@@ -48,6 +48,7 @@ public class BillController extends HttpServlet{
 			cart.clear();
 			SessionUtil.getInstance().putValue(req, SystemConstant.CART, cart);
 			SessionUtil.getInstance().putValue(req, SystemConstant.TOTALBILL, 0D);
+			EmailUtil.getInstance().sendTo(user.getEmail(), "Thông báo đơn hàng", "Thành Công - Cảm ơn bạn đã đặt hàng!");
 			resp.sendRedirect(req.getContextPath() + "/trang-chu?action=pages_checkout&alert=success&message=success_checkout");
 		}
 		else {
