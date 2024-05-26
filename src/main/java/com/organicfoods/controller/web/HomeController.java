@@ -20,6 +20,8 @@ import com.organicfoods.model.UserModel;
 import com.organicfoods.service.IBillDetailsService;
 import com.organicfoods.service.IProductService;
 import com.organicfoods.service.IUserService;
+import com.organicfoods.util.EmailUtil;
+import com.organicfoods.util.EmailUtilExecutor;
 import com.organicfoods.util.FormUtil;
 import com.organicfoods.util.SessionUtil;
 
@@ -49,6 +51,14 @@ public class HomeController extends HttpServlet{
 			model.setListResults(productService.findAll());
 			req.setAttribute(SystemConstant.MODEL, model);
 			view = "/views/web/shop.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(view);
+			rd.forward(req, resp);
+		}
+		else if(user.getAction() != null && user.getAction().equals(SystemConstant.SHOP_DETAIL)) {
+			view = "/views/web/pages/shop-detail.jsp";
+			Long productId = Long.parseLong(req.getParameter("productId"));
+			ProductModel model = productService.findById(productId);
+			req.setAttribute(SystemConstant.MODEL, model);
 			RequestDispatcher rd = req.getRequestDispatcher(view);
 			rd.forward(req, resp);
 		}
@@ -127,34 +137,62 @@ public class HomeController extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
 		UserModel user = FormUtil.mapValueToModel(UserModel.class, req);
 		if(user.getAction() != null && user.getAction().equals(SystemConstant.CONTACT)) {
 			resp.sendRedirect(req.getContextPath() + "/trang-chu?action=contact");
 		}
+		else if(user.getAction() != null && user.getAction().equals(SystemConstant.REGISTER)) {
+			UserModel checkUser = userService.findByUsernameOrEmailOrPhone(user.getUserName(), user.getEmail(), user.getPhone());
+			if(checkUser == null) {
+				Long id = userService.insertUserModel(user);
+				user = userService.findById(id);
+				
+				final String email = user.getEmail();
+				EmailUtilExecutor.getEmailExecutor().submit(() -> {
+					EmailUtil.getInstance().sendTo(email, "Đăng ký tài khoản", "Tạo tài khoản thành công!");
+				});
+			
+				resp.sendRedirect(req.getContextPath() + "/dang-nhap?action=login&alert=success&message=message_success_register");
+			}
+			else {
+				resp.sendRedirect(req.getContextPath() + "/dang-ky?action=register&alert=danger&message=message_exist");
+			}
+		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.LOGIN)) {
-			user = userService.findByUsernameAndPasswordAndStatus(user.getUserName(), user.getPassWord(), 1);
+			user = userService.findByUsernameAndPassword(user.getUserName(), user.getPassWord());
 			if(user != null) {
-				SessionUtil.getInstance().putValue(req, SystemConstant.USERMODEL, user);
-				HashMap<Long, BillDetailsModel> cart = new HashMap<Long, BillDetailsModel>();
- 				
-				List<BillDetailsModel> results = billDetailsService.findByCreatedBy(user.getUserName());
-				if(results != null) {
-					Double totalBill = 0D;
-					Double shipping = 35000D;
-					for(BillDetailsModel item : results) {
-						item.setProduct(productService.findById(item.getProductId()));
-						totalBill += item.getTotalPrice();
-						cart.put(item.getProductId(), item);
+				if(user.getStatus() == 1) {
+					SessionUtil.getInstance().putValue(req, SystemConstant.USERMODEL, user);
+					HashMap<Long, BillDetailsModel> cart = new HashMap<Long, BillDetailsModel>();
+	 				
+					List<BillDetailsModel> results = billDetailsService.findByCreatedBy(user.getUserName());
+					if(results != null) {
+						Double totalBill = 0D;
+						Double shipping = 35000D;
+						for(BillDetailsModel item : results) {
+							item.setProduct(productService.findById(item.getProductId()));
+							totalBill += item.getTotalPrice();
+							cart.put(item.getProductId(), item);
+						}
+						SessionUtil.getInstance().putValue(req, SystemConstant.CART, cart);
+						SessionUtil.getInstance().putValue(req, SystemConstant.TOTALBILL, totalBill);
+						SessionUtil.getInstance().putValue(req, SystemConstant.SHIPPNG, shipping);
 					}
-					SessionUtil.getInstance().putValue(req, SystemConstant.CART, cart);
-					SessionUtil.getInstance().putValue(req, SystemConstant.TOTALBILL, totalBill);
-					SessionUtil.getInstance().putValue(req, SystemConstant.SHIPPNG, shipping);
-				}
-				if(user.getRoleCode().equals(SystemConstant.USER)) {
-					resp.sendRedirect(req.getContextPath() + "/trang-chu");
+					if(user.getRoleCode().equals(SystemConstant.USER)) {
+						resp.sendRedirect(req.getContextPath() + "/trang-chu");
+					}
+					else {
+						resp.sendRedirect(req.getContextPath() + "/admin-trang-chu");
+					}
 				}
 				else {
-					resp.sendRedirect(req.getContextPath() + "/admin-trang-chu");
+					final String email = user.getEmail();
+					EmailUtilExecutor.getEmailExecutor().submit(() -> {
+						EmailUtil.getInstance().sendTo(email, "Thông tin tài khoản", "Tài khoản của bạn tạm thời bị khóa! Vui lòng liên hệ 1900 7474!");
+					});
+					
+					resp.sendRedirect(req.getContextPath() + "/dang-nhap?action=login&alert=warning&message=message_locked_account");
 				}
 			}
 			else {

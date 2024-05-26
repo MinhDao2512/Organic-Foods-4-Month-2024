@@ -60,4 +60,10 @@ public class BillDetailsDAO extends AbstractDAO<BillDetailsModel> implements IBi
 		return result.isEmpty() ? null : result.get(0);
 	}
 
+	@Override
+	public List<BillDetailsModel> findByBillId(Long billId) {
+		String sql = "SELECT * FROM billdetails WHERE billid = ?";
+		return query(sql, new BillDetailsMapper(), billId);
+	}
+
 }

@@ -6,7 +6,7 @@ import com.organicfoods.model.UserModel;
 import com.organicfoods.paging.Pageble;
 
 public interface IUserService {
-	UserModel findByUsernameAndPasswordAndStatus(String userName, String password, Integer status);
+	UserModel findByUsernameAndPassword(String userName, String password);
 	UserModel findByUsernameOrEmailOrPhone(String userName, String email, String phone);
 	Long insertUserModel(UserModel userModel);
 	UserModel findById(Long id);

@@ -13,9 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.organicfoods.constant.SystemConstant;
 import com.organicfoods.model.BillDetailsModel;
+import com.organicfoods.model.BillModel;
 import com.organicfoods.model.ProductModel;
 import com.organicfoods.model.UserModel;
 import com.organicfoods.service.IBillDetailsService;
+import com.organicfoods.service.IBillService;
 import com.organicfoods.service.IProductService;
 import com.organicfoods.service.IRoleService;
 import com.organicfoods.service.IUserService;
@@ -39,12 +41,15 @@ public class UserAPI extends HttpServlet{
 	@Inject
 	private IBillDetailsService billDetailsService;
 	
+	@Inject
+	private IBillService billService;
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json");
 		UserModel user = HttpUtil.toStrJSON(req.getReader()).toModel(UserModel.class);
-		UserModel checkUser = userService.findByUsernameAndPasswordAndStatus(user.getUserName(), user.getPassWord(), 1);
+		UserModel checkUser = userService.findByUsernameAndPassword(user.getUserName(), user.getPassWord());
 		if(checkUser == null) {
 			user.setRoleId(roleService.findByCode(user.getRoleCode()).getId());
 			Long id = userService.insertUserModel(user);
@@ -76,13 +81,27 @@ public class UserAPI extends HttpServlet{
 		UserModel user = HttpUtil.toStrJSON(req.getReader()).toModel(UserModel.class);
 		for(Long id : user.getIds()) {
 			String userName = userService.findById(id).getUserName();
-			List<ProductModel> results = productService.findBySeller(userName);
-			for(ProductModel product : results) {
-				List<BillDetailsModel> list = billDetailsService.findByProductId(product.getId());
-				for(BillDetailsModel billDetail : list) {
-					billDetailsService.deleteBillDetails(billDetail.getId());
+			List<ProductModel> products = productService.findBySeller(userName);
+			List<BillModel> bills = billService.findByUserId(id);
+			if(products != null) {
+				for(ProductModel product : products) {
+					List<BillDetailsModel> list = billDetailsService.findByProductId(product.getId());
+					if(list != null) {
+						for(BillDetailsModel billDetail : list) {
+							billDetailsService.deleteBillDetails(billDetail.getId());
+						}
+					}
+					productService.deleteProduct(product.getId());
 				}
-				productService.deleteProduct(product.getId());
+			}
+			if(bills != null) {
+				for(BillModel bill : bills) {
+					List<BillDetailsModel> billDetails = billDetailsService.findByBllId(bill.getId());
+					for(BillDetailsModel billDetail : billDetails) {
+						billDetailsService.deleteBillDetails(billDetail.getId());
+					}
+					billService.deleteById(bill.getId());
+				}
 			}
 			userService.deleteUserModel(id);
 		}

@@ -48,4 +48,9 @@ public class BillDetailsService implements IBillDetailsService{
 		return billDetailsDAO.findById(id);
 	}
 
+	@Override
+	public List<BillDetailsModel> findByBllId(Long billId) {
+		return billDetailsDAO.findByBillId(billId);
+	}
+
 }

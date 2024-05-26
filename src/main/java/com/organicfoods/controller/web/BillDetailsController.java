@@ -33,12 +33,13 @@ public class BillDetailsController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String priceStr = req.getParameter("price");
+		String type = req.getParameter("type");
 		UserModel user = (UserModel)SessionUtil.getInstance().getValue(req, SystemConstant.USERMODEL);
 		Double totalBill = (Double)SessionUtil.getInstance().getValue(req, SystemConstant.TOTALBILL);
 		
 		BillDetailsModel billDetail = FormUtil.mapValueToModel(BillDetailsModel.class, req);
-		billDetail.setCreatedBy(user.getUserName());	
-		HashMap<Long, BillDetailsModel> cart = (HashMap<Long, BillDetailsModel>)SessionUtil.getInstance().getValue(req, "CART");
+		billDetail.setCreatedBy(user.getUserName());
+		HashMap<Long, BillDetailsModel> cart = (HashMap<Long, BillDetailsModel>)SessionUtil.getInstance().getValue(req, SystemConstant.CART);
 
 		if(cart == null) {	
 			cart = new HashMap<Long, BillDetailsModel>();
@@ -69,6 +70,12 @@ public class BillDetailsController extends HttpServlet{
 				SessionUtil.getInstance().putValue(req, SystemConstant.TOTALBILL, totalBill + billDetail.getTotalPrice());
 			}
 			SessionUtil.getInstance().putValue(req, SystemConstant.CART, cart);
+			if(type.equals("add")) {
+				resp.sendRedirect(req.getContextPath() + "/trang-chu?action=shopDetail&productId=" + billDetail.getProductId());
+			}
+			else if(type.equals("buy")) {
+				resp.sendRedirect(req.getContextPath() + "/trang-chu?action=pages_cart");
+			}
 			resp.sendRedirect(req.getContextPath() + "/trang-chu?action=shop");
 		}
 	}

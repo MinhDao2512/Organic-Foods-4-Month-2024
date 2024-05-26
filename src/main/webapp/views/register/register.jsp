@@ -14,7 +14,7 @@
 			</c:if>
 			<h2 class="form-title">Sign up</h2>
 			
-			<form id="formRegister">
+			<form id="formRegister" action="<c:url value = '/dang-ky?action=register'/>" method="POST">
 				<div class="form-group">
 					<label for="fullName"><i
 						class="zmdi zmdi-account material-icons-name"></i></label> 
@@ -44,7 +44,7 @@
 						placeholder="Address" />
 				</div>
 				<div class="form-group form-button">
-					<input type = "button" class = "form-submit" value = "Register" id = "btnRegister"/>
+					<input type = "submit" class = "form-submit" value = "Register" id = "btnRegister"/>
 				</div>
 			</form>
 		</div>
@@ -56,6 +56,7 @@
 		</div>
 	</div>
 </div>
+<!--
 <script>
 	$('#btnRegister').click(function (e){
 		e.preventDefault();
@@ -89,3 +90,4 @@
 		});
 	}	
 </script>
+  -->

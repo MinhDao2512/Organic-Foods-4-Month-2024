@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/taglib.jsp"%>
 <c:url var="APIurl" value="/api-admin-user" />
 <c:url var="URLpattern" value="/admin-user"/>
@@ -21,7 +20,7 @@
 					<select class="form-control" id="roleCode" name="roleCode">
 						<option value="">Select role</option>
 						<c:forEach var="item" items="${roles}">
-							<option value="${item.code}">${item.name}</option>
+							<option value="${item.code}">${item.name} (${item.code})</option>
 						</c:forEach>
 					</select>
 				</c:if>
@@ -86,6 +85,18 @@
 			</div>
 		</div>
 		<div class="form-group row">
+			<label for="code" class="col-sm-2 col-form-label">Status</label>
+			<div class="col-sm-10">
+				<c:if test="${not empty model.status}">
+					<select class="form-control" id="status" name="status">
+						<option value="">Select status</option>
+						<option value="1" <c:if test="${model.status == 1}">selected="selected"</c:if>>Kích hoạt</option>
+						<option value="0" <c:if test="${model.status == 0}">selected="selected"</c:if>>Tạm khóa</option>
+					</select>
+				</c:if>
+			</div>
+		</div>
+		<div class="form-group row">
 			<label for="quantity" class="col-sm-2 col-form-label"></label>
 			<div class="col-sm-10">
 				<c:if test="${not empty model.id}">
@@ -99,6 +110,7 @@
 		<input type="hidden" id="id" name="id" value="${model.id}">
 	</form>
 </div>
+
 <script>
 	$('#btnAddOrUpdateProduct').click(function(e) {
 		e.preventDefault();

@@ -46,8 +46,7 @@ public class EmailUtil {
 			msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
 			
 			//From
-			msg.setFrom(bundle.getString("from"));
-			
+			msg.setFrom(new InternetAddress(bundle.getString("from"), bundle.getString("fromName")));
 			//To
 			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to_email,false));
 			
@@ -58,13 +57,23 @@ public class EmailUtil {
 			msg.setSentDate(new Timestamp(System.currentTimeMillis()));
 
 			//Body
-			msg.setText(message, "UTF-8");
-			
+//			msg.setText(message, "UTF-8");
+			msg.setContent("<!DOCTYPE html>\r\n"
+					+ "<html>\r\n"
+					+ "<body>\r\n"
+					+ "\r\n"
+					+ "<h3>" + message + "</h3>\r\n"
+					+ "\r\n"
+					+ "<img src='https://content.wepik.com/statics/26127453/preview-page0.jpg' alt='Image'>\r\n"
+					+ "\r\n"
+					+ "</body>\r\n"
+					+ "</html>\r\n", "text/html; charset=UTF-8");
 			//Send
 			Transport.send(msg);
+			System.out.println("Email sent successfully!");
 			return true;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error sending email: " + e.getMessage());
 			return false;
 		}
 	}

@@ -6,7 +6,7 @@ import com.organicfoods.model.UserModel;
 import com.organicfoods.paging.Pageble;
 
 public interface IUserDAO extends GenericDAO<UserModel>{
-	UserModel findByUsernameAndPasswordAndStatus(String userName, String passWord, Integer status);
+	UserModel findByUsernameAndPassword(String userName, String passWord);
 	UserModel findByUsernameOrEmailOrPhone(String userName, String email, String phone);
 	Long insertUserModel(UserModel userModel);
 	UserModel findById(Long id);

@@ -15,8 +15,8 @@ public class UserService implements IUserService{
 	private IUserDAO userDAO;
 
 	@Override
-	public UserModel findByUsernameAndPasswordAndStatus(String userName, String password, Integer status) {
-		return userDAO.findByUsernameAndPasswordAndStatus(userName, password, status);
+	public UserModel findByUsernameAndPassword(String userName, String password) {
+		return userDAO.findByUsernameAndPassword(userName, password);
 	}
 
 	@Override

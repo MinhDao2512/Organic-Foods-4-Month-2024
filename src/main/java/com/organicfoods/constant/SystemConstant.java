@@ -25,4 +25,5 @@ public class SystemConstant {
 	public static final String CART = "CART";
 	public static final String TOTALBILL = "TOTALBILL";
 	public static final String SHIPPNG = "SHIPPING";
+	public static final String SHOP_DETAIL = "shopDetail";
 }

@@ -139,16 +139,10 @@
                                     </div>
                                     <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                     <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                        <h4>${item.title}</h4>
-                                        <p>Shop: ${item.createdBy}</p>
+                                        <h4><a href="<c:url value = '/trang-chu?action=shopDetail&productId=${item.id}'/>">${item.title}</a></h4>
+                                        <p>Xuất xứ: ${item.origin}</p>
                                         <div class="d-flex justify-content-between flex-lg-wrap">
-                                            <p class="text-dark fs-5 fw-bold mb-0">${item.price}/kg</p>
-                                            <c:if test="${not empty USERMODEL}">
-                                            	<a href="<c:url value='/them-san-pham?quantity=1&productId=${item.id}&price=${item.price}'/>" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm vào</a>
-                                            </c:if>
-                                            <c:if test="${empty USERMODEL}">
-                                            	<a href="<c:url value='/dang-nhap?action=login'/>" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm vào</a>
-                                            </c:if>
+                                            <p class="text-dark fs-5 fw-bold mb-0">Giá bán: ${item.price}</p>
                                         </div>
                                     </div>
                                 </div>

@@ -11,11 +11,11 @@ import com.organicfoods.paging.Pageble;
 public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO{
 
 	@Override
-	public UserModel findByUsernameAndPasswordAndStatus(String userName, String passWord, Integer status) {
+	public UserModel findByUsernameAndPassword(String userName, String passWord) {
 		StringBuilder sql = new StringBuilder("SELECT * FROM user AS u ");
 		sql.append("INNER JOIN role AS r ON u.roleid = r.id ");
-		sql.append("WHERE username=? AND password=? AND status=?");
-		List<UserModel> results = query(sql.toString(),new UserMapper(),userName, passWord, status);
+		sql.append("WHERE username=? AND password=?");
+		List<UserModel> results = query(sql.toString(),new UserMapper(),userName, passWord);
 		return results.isEmpty() ? null : results.get(0);
 	}
 
@@ -82,10 +82,10 @@ public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO{
 	@Override
 	public Boolean updateUserModel(UserModel userModel) {
 		StringBuilder sql = new StringBuilder("UPDATE user ");
-		sql.append("SET fullname=?, username=?, email=?, phone=?, address=?, roleid=?, modifiedby=?, modifieddate=? ");
+		sql.append("SET fullname=?, username=?, email=?, phone=?, address=?, status=?, roleid=?, modifiedby=?, modifieddate=? ");
 		sql.append("WHERE id=?");
 		return updateOrDelete(sql.toString(), userModel.getFullName(), userModel.getUserName(), userModel.getEmail(), 
-								userModel.getPhone(), userModel.getAddress(), userModel.getRoleId(), userModel.getModifiedBy(), 
+								userModel.getPhone(), userModel.getAddress(), userModel.getStatus(), userModel.getRoleId(), userModel.getModifiedBy(), 
 								userModel.getModifiedDate(), userModel.getId());
 	}
 
