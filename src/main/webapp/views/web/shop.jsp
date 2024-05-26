@@ -22,7 +22,7 @@
                 <div class="row g-4">
                     <div class="col-xl-3">
                         <div class="input-group w-100 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                            <input type="search" class="form-control p-3" placeholder="Từ khóa" aria-describedby="search-icon-1">
                             <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
                         </div>
                     </div>
@@ -137,12 +137,12 @@
                                     <div class="fruite-img-1">
                                         <img src="${item.thumbnail}" class="img-fluid w-100 rounded-top" alt="Hình sản phẩm">
                                     </div>
-                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
+                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${item.categoryCode}</div>
                                     <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                         <h4><a href="<c:url value = '/trang-chu?action=shopDetail&productId=${item.id}'/>">${item.title}</a></h4>
                                         <p>Xuất xứ: ${item.origin}</p>
                                         <div class="d-flex justify-content-between flex-lg-wrap">
-                                            <p class="text-dark fs-5 fw-bold mb-0">Giá bán: ${item.price}</p>
+                                            <p class="text-dark fs-5 fw-bold mb-0">Giá bán: <fmt:formatNumber value="${item.price}"/><sup>đ</sup></p>
                                         </div>
                                     </div>
                                 </div>

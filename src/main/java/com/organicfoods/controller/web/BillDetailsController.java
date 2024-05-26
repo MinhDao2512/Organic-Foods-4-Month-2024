@@ -76,7 +76,6 @@ public class BillDetailsController extends HttpServlet{
 			else if(type.equals("buy")) {
 				resp.sendRedirect(req.getContextPath() + "/trang-chu?action=pages_cart");
 			}
-			resp.sendRedirect(req.getContextPath() + "/trang-chu?action=shop");
 		}
 	}
 	

@@ -18,6 +18,7 @@ import com.organicfoods.model.BillDetailsModel;
 import com.organicfoods.model.ProductModel;
 import com.organicfoods.model.UserModel;
 import com.organicfoods.service.IBillDetailsService;
+import com.organicfoods.service.ICategoryService;
 import com.organicfoods.service.IProductService;
 import com.organicfoods.service.IUserService;
 import com.organicfoods.util.EmailUtil;
@@ -39,6 +40,9 @@ public class HomeController extends HttpServlet{
 	@Inject
 	private IBillDetailsService billDetailsService;
 	
+	@Inject
+	private ICategoryService categoryService;
+	
 	ResourceBundle resourceBundle = ResourceBundle.getBundle("message");
 	
 	@SuppressWarnings("unchecked")
@@ -49,6 +53,9 @@ public class HomeController extends HttpServlet{
 		if(user.getAction() != null && user.getAction().equals(SystemConstant.SHOP)) {
 			ProductModel model = new ProductModel();
 			model.setListResults(productService.findAll());
+			for(ProductModel product : model.getListResults()) {
+				product.setCategoryCode(categoryService.findById(product.getCategoryId()).getName());
+			}
 			req.setAttribute(SystemConstant.MODEL, model);
 			view = "/views/web/shop.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(view);
@@ -58,6 +65,7 @@ public class HomeController extends HttpServlet{
 			view = "/views/web/pages/shop-detail.jsp";
 			Long productId = Long.parseLong(req.getParameter("productId"));
 			ProductModel model = productService.findById(productId);
+			model.setCategoryCode(categoryService.findById(model.getCategoryId()).getName());
 			req.setAttribute(SystemConstant.MODEL, model);
 			RequestDispatcher rd = req.getRequestDispatcher(view);
 			rd.forward(req, resp);
@@ -139,8 +147,15 @@ public class HomeController extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		UserModel user = FormUtil.mapValueToModel(UserModel.class, req);
+		System.out.println(user.getEmail());
+		System.out.println(user.getAction());
 		if(user.getAction() != null && user.getAction().equals(SystemConstant.CONTACT)) {
-			resp.sendRedirect(req.getContextPath() + "/trang-chu?action=contact");
+			final String email = user.getEmail();
+			System.out.println(email);
+			EmailUtilExecutor.getEmailExecutor().submit(() -> {
+				EmailUtil.getInstance().sendTo(email, "Thông báo nhận phản hồi", "Cảm ơn bạn đã gửi phản hồi đến chúng tôi!");
+			});
+			resp.sendRedirect(req.getContextPath() + "/trang-chu");
 		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.REGISTER)) {
 			UserModel checkUser = userService.findByUsernameOrEmailOrPhone(user.getUserName(), user.getEmail(), user.getPhone());

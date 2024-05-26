@@ -26,8 +26,8 @@
                     </div>
                     <div class="col-lg-6">
                         <h4 class="fw-bold mb-3">${model.title}</h4>
-                        <p class="mb-3">Category: ${model.categoryId}</p>
-                        <h5 class="fw-bold mb-3">${model.price}</h5>
+                        <p class="mb-3">Phân loại: ${model.categoryCode}</p>
+                        <h5 class="fw-bold mb-3"><fmt:formatNumber value="${model.price}"/><sup>đ</sup></h5>
                         <div class="d-flex mb-4">
                             <i class="fa fa-star text-secondary"></i>
                             <i class="fa fa-star text-secondary"></i>
@@ -35,7 +35,7 @@
                             <i class="fa fa-star text-secondary"></i>
                             <i class="fa fa-star"></i>
                         </div>
-                        <p class="mb-4">${model.content}</p>
+                        <p class="mb-4">${model.shortdescription}</p>
                         <div class="input-group quantity mb-5" style="width: 100px;">
                             <div class="input-group-btn">
                                 <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
@@ -63,7 +63,7 @@
                             <div class="nav nav-tabs mb-3">
                                 <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
                                     id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
-                                    aria-controls="nav-about" aria-selected="true">Mô tả</button>
+                                    aria-controls="nav-about" aria-selected="true">Gợi ý món ăn</button>
                                 <button class="nav-link border-white border-bottom-0" type="button" role="tab"
                                     id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
                                     aria-controls="nav-mission" aria-selected="false">Đánh giá</button>
@@ -71,7 +71,7 @@
                         </nav>
                         <div class="tab-content mb-5">
                             <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                                <p>${model.shortdescription}</p>
+                                <p>${model.content}</p>
                                 
                                 <div class="px-2">
                                     <div class="row g-4">
@@ -86,7 +86,7 @@
                                             </div>
                                             <div class="row bg-light text-center align-items-center justify-content-center py-2">
                                                 <div class="col-6">
-                                                    <p class="mb-0">Quality</p>
+                                                    <p class="mb-0">Chất lượng</p>
                                                 </div>
                                                 <div class="col-6">
                                                     <p class="mb-0">Organic</p>
@@ -160,7 +160,7 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-between py-3 mb-5">
-                                    <a href="#" class="btn border border-secondary text-primary rounded-pill px-4 py-3">Gửi</a>
+                                    <a href="#" class="btn border border-secondary text-primary rounded-pill px-4 py-3">Gửi đánh giá</a>
                                 </div>
                             </div>
                         </div>

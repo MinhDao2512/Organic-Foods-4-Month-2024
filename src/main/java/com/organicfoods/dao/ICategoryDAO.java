@@ -10,4 +10,5 @@ public interface ICategoryDAO extends GenericDAO<CategoryModel>{
 	Boolean deleteCategoryModel(Long id);
 	Long insertCategoryModel(CategoryModel category);
 	CategoryModel findByCategoryCode(String code);
+	CategoryModel findById(Long id);
 }

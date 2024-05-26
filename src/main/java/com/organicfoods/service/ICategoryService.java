@@ -7,4 +7,5 @@ import com.organicfoods.model.CategoryModel;
 public interface ICategoryService {
 	List<CategoryModel> findAll();
 	CategoryModel findByCategoryCode(String code);
+	CategoryModel findById(Long id);
 }

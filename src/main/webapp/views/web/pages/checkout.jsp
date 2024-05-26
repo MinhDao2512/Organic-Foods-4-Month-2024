@@ -63,9 +63,9 @@
                                         </div>
                                     </th>
                                     <td class="py-5">${entry.value.product.title}</td>
-                                    <td class="py-5">${entry.value.product.price}</td>
+                                    <td class="py-5"><fmt:formatNumber value="${entry.value.product.price}"/><sup>đ</sup></td>
                                     <td class="py-5">${entry.value.quantity}</td>
-                                    <td class="py-5">${entry.value.totalPrice}</td>
+                                    <td class="py-5"><fmt:formatNumber value="${entry.value.totalPrice}"/><sup>đ</sup></td>
                                 </tr>
                                 </c:forEach>
                                 <tr>
@@ -78,7 +78,7 @@
                                     <td class="py-5"></td>
                                     <td class="py-5">
                                         <div class="py-3 border-bottom border-top">
-                                            <p class="mb-0 text-dark">${SHIPPING}</p>
+                                            <p class="mb-0 text-dark"><fmt:formatNumber value="${SHIPPING}"/><sup>đ</sup></p>
                                         </div>
                                     </td>
                                 </tr>
@@ -92,7 +92,7 @@
                                     <td class="py-5"></td>
                                     <td class="py-5">
                                         <div class="py-3 border-bottom border-top">
-                                            <p class="mb-0 text-dark">${TOTALBILL + SHIPPING}</p>
+                                            <p class="mb-0 text-dark"><fmt:formatNumber value="${TOTALBILL + SHIPPING}"/><sup>đ</sup></p>
                                         </div>
                                     </td>
                                 </tr>
