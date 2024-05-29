@@ -61,6 +61,18 @@ public class HomeController extends HttpServlet{
 			RequestDispatcher rd = req.getRequestDispatcher(view);
 			rd.forward(req, resp);
 		}
+		else if(user.getAction() != null && user.getAction().equals(SystemConstant.SEARCH)) {
+			ProductModel model = new ProductModel();
+			model.setListResults(productService.findByKeyword(user.getKeyword()));
+			System.out.println(model.getListResults().size());
+//			for(ProductModel product : model.getListResults()) {
+//				product.setCategoryCode(categoryService.findById(product.getCategoryId()).getName());
+//			}
+			req.setAttribute(SystemConstant.MODEL, model);
+			view = "/views/web/shop.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(view);
+			rd.forward(req, resp);
+		}
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.SHOP_DETAIL)) {
 			view = "/views/web/pages/shop-detail.jsp";
 			Long productId = Long.parseLong(req.getParameter("productId"));
@@ -147,11 +159,8 @@ public class HomeController extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		UserModel user = FormUtil.mapValueToModel(UserModel.class, req);
-		System.out.println(user.getEmail());
-		System.out.println(user.getAction());
 		if(user.getAction() != null && user.getAction().equals(SystemConstant.CONTACT)) {
 			final String email = user.getEmail();
-			System.out.println(email);
 			EmailUtilExecutor.getEmailExecutor().submit(() -> {
 				EmailUtil.getInstance().sendTo(email, "Thông báo nhận phản hồi", "Cảm ơn bạn đã gửi phản hồi đến chúng tôi!");
 			});

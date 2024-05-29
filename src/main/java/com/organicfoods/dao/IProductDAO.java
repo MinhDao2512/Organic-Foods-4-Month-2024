@@ -19,5 +19,5 @@ public interface IProductDAO extends GenericDAO<ProductModel>{
 	List<ProductModel> findBySeller(String userName);
 	Integer countProductsByCreatedBy(String userName);
 	Boolean findByCodeAndCreatedBy(String code, String createdBy);
-	
+	List<ProductModel> findByKeyword(String keyword);
 }

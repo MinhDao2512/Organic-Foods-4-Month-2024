@@ -78,6 +78,11 @@ public class ProductService implements IProductService{
 	public List<ProductModel> findBySeller(String userName) {
 		return productDAO.findBySeller(userName);
 	}
+
+	@Override
+	public List<ProductModel> findByKeyword(String keyword) {
+		return productDAO.findByKeyword(keyword);
+	}
 	
 	
 

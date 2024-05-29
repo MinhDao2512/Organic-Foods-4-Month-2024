@@ -109,5 +109,14 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 		List<ProductModel> result = query(sql, new ProductMapper(), userName);
 		return result.isEmpty() ? null : result;
 	}
+
+	@Override
+	public List<ProductModel> findByKeyword(String keyword) {
+		StringBuilder sql = new StringBuilder("SELECT * FROM product WHERE title LIKE '%");
+		sql.append(keyword);
+		sql.append("%'");
+		List<ProductModel> results = query(sql.toString(), new ProductMapper());
+		return results;
+	}
 	
 }

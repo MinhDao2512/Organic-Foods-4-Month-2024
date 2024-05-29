@@ -79,7 +79,7 @@ public class ProductAPI extends HttpServlet{
 		for(Long productId : product.getIds()) {
 			List<BillDetailsModel> results = billDetailsService.findByProductId(productId);
 			for(BillDetailsModel item : results) {
-				billDetailsService.deleteBillDetails(item.getId());
+				billDetailsService.deleteBillDetails(item.getId());		
 			}
 			productService.deleteProduct(productId);
 			product = productService.findById(productId);

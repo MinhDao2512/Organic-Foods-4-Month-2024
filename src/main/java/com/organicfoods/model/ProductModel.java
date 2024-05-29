@@ -72,6 +72,10 @@ public class ProductModel extends AbstractModel<ProductModel>{
 	public void setCategoryCode(String categoryCode) {
 		this.categoryCode = categoryCode;
 	}
+	@Override
+	public String toString() {
+		return "ProductModel [code=" + code + ", title=" + title + ", thumbnail=" + thumbnail + "]";
+	}
 	
 	
 }
