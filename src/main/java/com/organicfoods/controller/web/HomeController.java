@@ -64,10 +64,9 @@ public class HomeController extends HttpServlet{
 		else if(user.getAction() != null && user.getAction().equals(SystemConstant.SEARCH)) {
 			ProductModel model = new ProductModel();
 			model.setListResults(productService.findByKeyword(user.getKeyword()));
-			System.out.println(model.getListResults().size());
-//			for(ProductModel product : model.getListResults()) {
-//				product.setCategoryCode(categoryService.findById(product.getCategoryId()).getName());
-//			}
+			for(ProductModel product : model.getListResults()) {
+				product.setCategoryCode(categoryService.findById(product.getCategoryId()).getName());
+			}
 			req.setAttribute(SystemConstant.MODEL, model);
 			view = "/views/web/shop.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(view);

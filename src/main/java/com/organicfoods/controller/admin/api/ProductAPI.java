@@ -44,10 +44,10 @@ public class ProductAPI extends HttpServlet{
 		
 		product.setCreatedBy(user.getUserName());
 		product.setCategoryId(category.getId());
-		
+		product.setCode(product.getCode() + "-" +user.getUserName());
 		Boolean checkCodeOfProduct = productService.findByCodeAndCreatedBy(product.getCode(), user.getUserName());
 		
-		if(!checkCodeOfProduct) {
+		if(!checkCodeOfProduct && product.getPrice() > 0 && product.getQuantity() > 0) {
 			Long id = productService.insertProduct(product);
 			product = productService.findById(id);
 		}
@@ -65,9 +65,12 @@ public class ProductAPI extends HttpServlet{
 		product.setCategoryId(category.getId());
 		product.setModifiedBy(user.getUserName());
 		Long id = product.getId();
-		productService.updateProduct(product);
 		
-		product = productService.findById(id);
+		if(product.getPrice() > 0) {
+			productService.updateProduct(product);
+			product = productService.findById(id);
+		}
+		
 		HttpUtil.toJSON(resp.getOutputStream(), product);
 	}
 	

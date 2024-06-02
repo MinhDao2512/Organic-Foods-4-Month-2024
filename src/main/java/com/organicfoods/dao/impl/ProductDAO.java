@@ -47,7 +47,7 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 
 	@Override
 	public List<ProductModel> findAll() {
-		StringBuilder sql = new StringBuilder("SELECT * FROM product AS p");
+		StringBuilder sql = new StringBuilder("SELECT * FROM product AS p WHERE p.quantity > 0");
 		return query(sql.toString(),new ProductMapper());
 	}
 
@@ -112,7 +112,7 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 
 	@Override
 	public List<ProductModel> findByKeyword(String keyword) {
-		StringBuilder sql = new StringBuilder("SELECT * FROM product WHERE title LIKE '%");
+		StringBuilder sql = new StringBuilder("SELECT * FROM product AS p WHERE p.title LIKE '%");
 		sql.append(keyword);
 		sql.append("%'");
 		List<ProductModel> results = query(sql.toString(), new ProductMapper());

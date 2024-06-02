@@ -25,8 +25,14 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <h4 class="fw-bold mb-3">${model.title}</h4>
+                        <h4 class="fw-bold mb-3">${model.title}<c:if test="${model.quantity <= 0}"> (Hết hàng)</c:if></h4>
                         <p class="mb-3">Phân loại: ${model.categoryCode}</p>
+                        <c:if test="${model.categoryId == 3 && model.quantity > 0}">
+                        	<p class="mb-3">Số lượng còn: ${model.quantity} (sản phẩm)</p>
+                        </c:if>
+                        <c:if test="${model.categoryId != 3 && model.quantity > 0}">
+                        	<p class="mb-3">Số lượng còn : ${model.quantity} (kg)</p>
+                        </c:if>
                         <h5 class="fw-bold mb-3"><fmt:formatNumber value="${model.price}"/><sup>đ</sup></h5>
                         <div class="d-flex mb-4">
                             <i class="fa fa-star text-secondary"></i>
@@ -36,26 +42,28 @@
                             <i class="fa fa-star"></i>
                         </div>
                         <p class="mb-4">${model.shortdescription}</p>
-                        <div class="input-group quantity mb-5" style="width: 100px;">
-                            <div class="input-group-btn">
-                                <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                            <input type="text" class="form-control form-control-sm text-center border-0" value="1">
-                            <div class="input-group-btn">
-                                <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                    <i class="fa fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <c:if test="${not empty USERMODEL}">
-                        	<a href="<c:url value='/them-san-pham?type=buy&quantity=1&productId=${model.id}&price=${model.price}'/>" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-cart me-2 text-primary"></i>Mua</a>
-                    		<a href="<c:url value='/them-san-pham?type=add&quantity=1&productId=${model.id}&price=${model.price}'/>" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng</a>
-                    	</c:if>
-                    	<c:if test="${empty USERMODEL}">
-                    		<a href="<c:url value='/dang-nhap?action=login'/>" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-cart me-2 text-primary"></i>Mua</a>
-                    		<a href="<c:url value='/dang-nhap?action=login'/>" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng</a>
+                        <c:if test="${model.quantity > 0}">
+	                        <div class="input-group quantity mb-5" style="width: 100px;">
+	                            <div class="input-group-btn">
+	                                <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
+	                                    <i class="fa fa-minus"></i>
+	                                </button>
+	                            </div>
+	                            <input type="text" class="form-control form-control-sm text-center border-0" value="1">
+	                            <div class="input-group-btn">
+	                                <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+	                                    <i class="fa fa-plus"></i>
+	                                </button>
+	                            </div>
+	                        </div>
+	                        <c:if test="${not empty USERMODEL}">
+	                        	<a href="<c:url value='/them-san-pham?type=buy&quantity=1&productId=${model.id}&price=${model.price}'/>" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-cart me-2 text-primary"></i>Mua</a>
+	                    		<a href="<c:url value='/them-san-pham?type=add&quantity=1&productId=${model.id}&price=${model.price}'/>" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng</a>
+	                    	</c:if>
+	                    	<c:if test="${empty USERMODEL}">
+	                    		<a href="<c:url value='/dang-nhap?action=login'/>" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-cart me-2 text-primary"></i>Mua</a>
+	                    		<a href="<c:url value='/dang-nhap?action=login'/>" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm vào giỏ hàng</a>
+	                    	</c:if>
                     	</c:if>
                     </div>
                     <div class="col-lg-12">
@@ -76,6 +84,14 @@
                                 <div class="px-2">
                                     <div class="row g-4">
                                         <div class="col-6">
+                                        	<div class="row text-center align-items-center justify-content-center py-2">
+                                                <div class="col-6">
+                                                    <p class="mb-0">Người bán</p>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p class="mb-0">${model.createdBy}</p>
+                                                </div>
+                                            </div>
                                             <div class="row text-center align-items-center justify-content-center py-2">
                                                 <div class="col-6">
                                                     <p class="mb-0">Xuất xứ</p>

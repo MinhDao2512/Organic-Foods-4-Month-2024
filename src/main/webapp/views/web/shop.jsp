@@ -131,26 +131,32 @@
                         <div class="row g-4 justify-content-center">
                         
                         	<!-- Start Load Data -->
-                        	<c:forEach var="item" items="${model.listResults}">
-                            <div class="col-md-6 col-lg-6 col-xl-4">
-                                <div class="rounded position-relative fruite-item">
-                                    <div class="fruite-img-1">
-                                        <img src="${item.thumbnail}" class="img-fluid w-100 rounded-top" alt="Hình sản phẩm">
-                                    </div>
-                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${item.categoryCode}</div>
-                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                        <h4><a href="<c:url value = '/trang-chu?action=shopDetail&productId=${item.id}'/>">${item.title}</a></h4>
-                                        <p>Xuất xứ: ${item.origin}</p>
-                                        <div class="d-flex justify-content-between flex-lg-wrap">
-                                            <p class="text-dark fs-5 fw-bold mb-0">Giá bán: <fmt:formatNumber value="${item.price}"/><sup>đ</sup></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </c:forEach>
-                            <!-- End Load Data -->
-                            
-                            <div class="col-12">
+                        	<c:if test="${not empty model.listResults}">
+	                        	<c:forEach var="item" items="${model.listResults}">
+		                            <div class="col-md-6 col-lg-6 col-xl-4">
+		                                <div class="rounded position-relative fruite-item">
+		                                    <div class="fruite-img-1">
+		                                        <img src="${item.thumbnail}" class="img-fluid w-100 rounded-top" alt="Hình sản phẩm">
+		                                    </div>
+		                                    <c:if test="${item.quantity > 0}">
+		                                    	<div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${item.categoryCode}</div>
+		                                    </c:if>
+		                                    <c:if test="${item.quantity <= 0}">
+		                                    	<div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hết hàng</div>
+		                                    </c:if>
+		                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+		                                        <h4><a href="<c:url value = '/trang-chu?action=shopDetail&productId=${item.id}'/>">${item.title}</a></h4>
+		                                        <p>${item.createdBy}</p>
+		                                        <p>Xuất xứ: ${item.origin}</p>
+		                                        <div class="d-flex justify-content-between flex-lg-wrap">
+		                                            <p class="text-dark fs-5 fw-bold mb-0">Giá bán: <fmt:formatNumber value="${item.price}"/><sup>đ</sup></p>
+		                                        </div>
+		                                    </div>
+		                                </div>
+		                            </div>
+	                            </c:forEach>
+	                            
+	                            <div class="col-12">
                                 <div class="pagination d-flex justify-content-center mt-5">
                                     <a href="#" class="rounded">&laquo;</a>
                                     <a href="#" class="active rounded">1</a>
@@ -162,6 +168,11 @@
                                     <a href="#" class="rounded">&raquo;</a>
                                 </div>
                             </div>
+                            </c:if>
+                            <c:if test="${empty model.listResults}">
+                            	<p style="text-align: center;">Không tìm thấy sản phẩm tương ứng!</p>
+                            </c:if>
+                            <!-- End Load Data -->
                         </div>
                     </div>
                 </div>

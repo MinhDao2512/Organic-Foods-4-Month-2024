@@ -77,8 +77,9 @@
 					placeholder="Content" value="${model.content}">
 			</div>
 		</div>
+		
 		<div class="form-group row">
-			<label for="price" class="col-sm-2 col-form-label">Price / Kg</label>
+			<label for="price" class="col-sm-2 col-form-label">Price</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" id="price" name="price"
 					placeholder="Price" value="${model.price}">
@@ -137,11 +138,11 @@
 			dataType : 'json',
 			success : function(result) {
 				console.log(result);
-				if(result.id !== null){
+				if(result.id !== null && result.price > 0){
 					window.location.href = "${URLpattern}?type=edit&id=${model.id}&alert=success&message=success_update_product";
 				}
 				else {
-					window.location.href = "${URLpattern}?type=edit&id=${model.id}&alert=danger&message=message_danger";
+					window.location.href = "${URLpattern}?type=edit&id=${model.id}&alert=danger&message=message_danger_price_or_quantity";
 				}
 			},
 			error : function(error) {
@@ -163,7 +164,12 @@
 					window.location.href = "${URLpattern}?type=edit&alert=success&message=success_add_product";
 				}
 				else {
-					window.location.href = "${URLpattern}?type=edit&alert=danger&message=danger_add_product";
+					if(result.price > 0 && result.quantity > 0){
+						window.location.href = "${URLpattern}?type=edit&alert=danger&message=danger_add_product";
+					}
+					else if(result.price <= 0 || result.quantity <= 0){
+						window.location.href = "${URLpattern}?type=edit&alert=danger&message=message_danger_price_or_quantity";
+					}
 				}
 			},
 			error : function(error) {
